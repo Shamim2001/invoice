@@ -1,0 +1,9 @@
+===== laravel install your project =====
+1. composer install
+2. composer create-project laravel/laravel .
+3. composer require laravel/breeze --dev
+4. php artisan breeze:install
+5. npm install
+6. npm run dev
+7. database create & laravel project connect
+8. php artisan migrate

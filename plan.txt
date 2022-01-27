@@ -1,0 +1,41 @@
+Project Name: Invo (invoice app)
+
+Features:
+    - User
+        - Id
+        - Name
+        - Email
+        - Password
+        - Thumbnail
+    - Task List
+        - Id
+        - Name
+        - Client_at
+        - create_at
+        - Upload_at
+    - Client List
+        - Id
+        - Name
+        - Email
+        - Phone
+        - Country
+    - Invoice List
+        - Id
+        - Invo_id
+        - Invoice_to
+        - Invoice_from
+    - Create New Invoice
+    - Generate PDF Version of the invoice
+    - View the Invoice
+    - Sending Email with the PDF
+
+
+What we'll learn?
+    - Single User
+    - CRUD Operation (Task, Client, Invoice)
+    - Search and create invoice
+    - PDF Generation
+    - Email with Queue and jobs
+    - One to One Relationship
+    - Many to Many Relationship
+    - One to Many Relationship
