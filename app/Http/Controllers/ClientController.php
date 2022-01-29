@@ -12,7 +12,10 @@ class ClientController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view( 'client.index' );
+
+        $data = Client::all();
+
+        return view( 'client.index' )->with( 'clients', $data );
     }
 
     /**

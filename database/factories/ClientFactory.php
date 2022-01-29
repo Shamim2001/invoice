@@ -17,7 +17,7 @@ class ClientFactory extends Factory {
             'email'     => $this->faker->unique()->safeEmail(),
             'phone'     => $this->faker->phoneNumber,
             'country'   => $this->faker->country,
-            'thambnail' => 'https://picsum.photos/300?random=' . rand( 1, 22334 ),
+            'thumbnail' => 'https://picsum.photos/300?random=' . rand( 1, 22334 ),
 
         ];
     }
