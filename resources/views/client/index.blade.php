@@ -1,8 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Clients') }}
-        </h2>
+        <div class="flex justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Clients') }}
+            </h2>
+
+            <a href="{{ route('client.create') }}" class="border border-emerald-500 px-3 py-1 rounded">Add New</a>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -13,7 +17,7 @@
                     <table class="w-full border-collapse">
                         <thead>
                             <tr>
-                                <th class="border py-2 w-32 text-center">Thumbnail</th>
+                                <th class="border py-2 w-32 text-center">Image</th>
                                 <th class="border">Name</th>
                                 <th class="border">Username</th>
                                 <th class="border">Email</th>
