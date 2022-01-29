@@ -14,17 +14,27 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
-                    <form action="#" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('client.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="mt-6 flex">
                             <div class="flex-1 mr-4">
                                 <label for="name" class="formLabel">Name</label>
-                                <input type="text" name="name" id="name" class="formInput">
+                                <input type="text" name="name" id="name" class="formInput" value="{{ old('name')}}">
+
+                                @error('name')
+                                    <p class="text-red-700 text-sm">{{$message}}</p>
+                                @enderror
+
                             </div>
                             <div class="flex-1 ml-4">
                                 <label for="username" class="formLabel">Username</label>
-                                <input type="text" name="username" id="username" class="formInput">
+                                <input type="text" name="username" id="username" class="formInput" value="{{ old('username')}}">
+
+                                @error('username')
+                                    <p class="text-red-700 text-sm">{{$message}}</p>
+                                @enderror
+
                             </div>
                         </div>
 
@@ -33,11 +43,22 @@
 
                             <div class="flex-1 mr-4">
                                 <label for="email" class="formLabel">Email</label>
-                                <input type="text" name="email" id="email" class="formInput">
+                                <input type="text" name="email" id="email" class="formInput" value="{{ old('email')}}">
+
+                                @error('email')
+                                    <p class="text-red-700 text-sm">{{$message}}</p>
+                                @enderror
+
+
                             </div>
                             <div class="flex-1 ml-4">
                                 <label for="phone" class="formLabel">Phone</label>
-                                <input type="text" name="phone" id="phone" class="formInput">
+                                <input type="text" name="phone" id="phone" class="formInput" value="{{ old('phone')}}">
+
+                                @error('phone')
+                                    <p class="text-red-700 text-sm">{{$message}}</p>
+                                @enderror
+
                             </div>
 
                         </div>
@@ -46,11 +67,16 @@
 
                             <div class="flex-1">
                                 <label for="country" class="formLabel">Country</label>
-                                <input type="text" name="country" id="country" class="formInput">
+                                <input type="text" name="country" id="country" class="formInput" value="{{ old('country')}}">
+
+                                @error('country')
+                                    <p class="text-red-700 text-sm">{{$message}}</p>
+                                @enderror
                             </div>
                             <div class="flex-1 mx-5">
-                                <label for="thumbnail" class="formLabel">Thumbnail</label>
-                                <input type="file" name="thumbnail" id="thumbnail" class="formInput">
+                                <label for="" class="formLabel">Thumbnail</label>
+                                <label for="thumbnail" class="formLabel border-2 rounded-md border-dashed border-emerald-400 text-center py-2">Click Here To Upload</label>
+                                <input type="file" name="thumbnail" id="thumbnail" class="formInput hidden" value="{{ old('thumbnail')}}">
                             </div>
                             <div class="flex-1">
                                 <label for="status" class="formLabel">Status</label>
@@ -64,7 +90,7 @@
 
 
                         <div class="mt-6">
-                            <button type="submit" class="bg-emerald-800 px-4 py-2 text-white rounded-md text-xl uppercase">Create</button>
+                            <button type="submit" class="bg-emerald-800 px-4 py-2 text-white rounded-md text-base uppercase">Create</button>
                         </div>
                     </form>
 

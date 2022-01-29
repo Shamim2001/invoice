@@ -41,8 +41,8 @@
                                 <td class="border py-2 text-center">{{$client->phone}}</td>
                                 <td class="border py-2 text-center">{{$client->country}}</td>
                                 <td class="border py-2 text-center">
-                                    <a href="#" class="bg-emerald-800 text-white px-2 py-1">Edit</a>
-                                    <a href="#" class="bg-red-800 text-white px-2 py-1">Delete</a>
+                                    <a href="#" class="bg-emerald-800 text-white px-2 py-1 rounded">Edit</a>
+                                    <a href="#" class="bg-red-800 text-white px-2 py-1 rounded">Delete</a>
                                 </td>
 
                             </tr>

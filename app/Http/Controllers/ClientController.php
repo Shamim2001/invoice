@@ -35,7 +35,14 @@ class ClientController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store( Request $request ) {
-        //
+
+        $request->validate( [
+            'name'     => ['required', 'max: 255', 'string'],
+            'username' => ['required', 'max: 255', 'string', 'unique:client|username'],
+            'email'    => ['required', 'max: 255', 'string', 'email'],
+            'phone'    => ['max: 255', 'string'],
+            'country'  => ['max: 255', 'string'],
+        ] );
     }
 
     /**
