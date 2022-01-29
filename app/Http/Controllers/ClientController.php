@@ -5,16 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Http\Request;
 
-class ClientController extends Controller
-{
+class ClientController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index() {
+        return view( 'client.index' );
     }
 
     /**
@@ -22,9 +20,8 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create() {
+
     }
 
     /**
@@ -33,8 +30,7 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store( Request $request ) {
         //
     }
 
@@ -44,8 +40,7 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function show(Client $client)
-    {
+    public function show( Client $client ) {
         //
     }
 
@@ -55,8 +50,7 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function edit(Client $client)
-    {
+    public function edit( Client $client ) {
         //
     }
 
@@ -67,8 +61,7 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client)
-    {
+    public function update( Request $request, Client $client ) {
         //
     }
 
@@ -78,8 +71,7 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $client)
-    {
+    public function destroy( Client $client ) {
         //
     }
 }
