@@ -37,34 +37,30 @@ class ClientController extends Controller {
     public function store( Request $request ) {
 
         $request->validate( [
-            'name'     => ['required', 'max: 255', 'string'],
-            'username' => ['required', 'max: 255', 'string', 'unique:clients'],
-            'email'    => ['required', 'max: 255', 'string', 'email', 'unique:clients'],
-            'phone'    => ['max: 255', 'string'],
-            'country'  => ['max: 255', 'string'],
+            'name'      => ['required', 'max: 255', 'string'],
+            'username'  => ['required', 'max: 255', 'string', 'unique:clients'],
+            'email'     => ['required', 'max: 255', 'string', 'email', 'unique:clients'],
+            'phone'     => ['max: 255', 'string'],
+            'country'   => ['max: 255', 'string'],
+            'status'    => ['not_in:none', 'string'],
+            'thumbnail' => 'image',
         ] );
 
-        Client::create( $request->only( 'name', 'username', 'email', 'phone', 'country', 'status' ) );
+        $thumb = null;
+        if ( !empty( $request->file( 'thumbnail' ) ) ) {
+            $thumb = time() . '-' . $request->file( 'thumbnail' )->getClientOriginalName();
+            $request->file( 'thumbnail' )->storeAs( 'public/uploads', $thumb );
+        }
 
-        // Client::create( [
-        //     'name'     => $request->name,
-        //     'username' => $request->username,
-        //     'email'    => $request->email,
-        //     'phone'    => $request->phone,
-        //     'country'  => $request->country,
-        //     'status'  => $request->status,
-        //  ] );
-
-        // $client = new Client();
-
-        // $client->name = $request->name;
-        // $client->username = $request->username;
-        // $client->email = $request->email;
-        // $client->phone = $request->phone;
-        // $client->country = $request->country;
-        // $client->status = $request->status;
-
-        // $client->save();
+        Client::create( [
+            'name'      => $request->name,
+            'username'  => $request->username,
+            'email'     => $request->email,
+            'phone'     => $request->phone,
+            'country'   => $request->country,
+            'thumbnail' => $thumb,
+            'status'    => $request->status,
+        ] );
 
         return redirect()->route( 'client.index' );
     }

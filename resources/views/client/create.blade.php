@@ -77,14 +77,22 @@
                                 <label for="" class="formLabel">Thumbnail</label>
                                 <label for="thumbnail" class="formLabel border-2 rounded-md border-dashed border-emerald-400 text-center py-2">Click Here To Upload</label>
                                 <input type="file" name="thumbnail" id="thumbnail" class="formInput hidden" value="{{ old('thumbnail')}}">
+
+                                @error('thumbnail')
+                                    <p class="text-red-700 text-sm">{{$message}}</p>
+                                @enderror
                             </div>
                             <div class="flex-1">
                                 <label for="status" class="formLabel">Status</label>
                                 <select name="status" id="status" class="formInput">
-                                    <option value="none">Select Status</option>
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
+                                    <option value="none" {{ old('status')== 'none' ? 'selected' : '' }}>Select Status</option>
+                                    <option value="active" {{ old('status')== 'active' ? 'selected' : '' }}>Active</option>
+                                    <option value="inactive" {{ old('status')== 'inactive' ? 'selected' : '' }}>Inactive</option>
                                 </select>
+
+                                @error('status')
+                                    <p class="text-red-700 text-sm">{{$message}}</p>
+                                @enderror
                             </div>
                         </div>
 
