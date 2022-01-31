@@ -29,10 +29,19 @@
 
                         <tbody>
 
+                            @php
+                                function getImageUrl($image) {
+                                    if(str_starts_with($image, 'http')) {
+                                        return $image;
+                                    }
+                                    return asset('storage/uploads') . '/' . $image;
+                                }
+                            @endphp
+
                             @foreach ($clients as $client)
                             <tr>
                                 <td class="border py-2 w-32 text-center">
-                                    <img src="{{$client->thumbnail}}" width="50" alt="" class="mx-auto rounded-full">
+                                    <img src="{{ getImageUrl($client->thumbnail) }}" width="50" alt="" class="mx-auto rounded-full">
                                 </td>
                                 <td class="border py-2 text-center">{{$client->name}}</td>
                                 <td class="border py-2 text-center">{{$client->username}}</td>
@@ -40,8 +49,10 @@
                                 <td class="border py-2 text-center">{{$client->phone}}</td>
                                 <td class="border py-2 text-center">{{$client->country}}</td>
                                 <td class="border py-4 text-center">
-                                    <a href="#" class="bg-emerald-800 text-white text-sm px-3 py-1 rounded">Edit</a>
-                                    <a href="#" class="bg-red-800 text-white text-sm px-3 py-1 rounded">Delete</a>
+                                    <div class="flex justify-between">
+                                        <a href="#" class="bg-emerald-800 text-white text-sm px-3 py-1 rounded">Edit</a>
+                                        <a href="#" class="bg-red-800 text-white text-sm px-3 py-1 rounded">Delete</a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
