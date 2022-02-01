@@ -9,6 +9,13 @@
         </div>
     </x-slot>
 
+    @if (session('success'))
+        <div class="bg-emerald-200 text-emerald-700 py-4 text-center" id="message">
+            <p>{{session('success')}}</p>
+        </div>
+    @endif
+
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -48,13 +55,15 @@
                                 <td class="border py-2 text-center">{{$client->email}}</td>
                                 <td class="border py-2 text-center">{{$client->phone}}</td>
                                 <td class="border py-2 text-center">{{$client->country}}</td>
-                                <td class="border py-4 text-center">
+                                <td class="border py-2 text-center">
                                     <div class="flex justify-between">
                                         <a href="#" class="bg-emerald-800 text-white text-sm px-3 py-1 rounded">Edit</a>
                                         <a href="#" class="bg-red-800 text-white text-sm px-3 py-1 rounded">Delete</a>
                                     </div>
                                 </td>
                             </tr>
+
+
                             @endforeach
 
                         </tbody>
