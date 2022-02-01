@@ -82,7 +82,10 @@ class ClientController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit( Client $client ) {
-        //
+
+        return view( 'client.edit' )->with( [
+            'client' => $client,
+        ] );
     }
 
     /**
@@ -93,7 +96,7 @@ class ClientController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update( Request $request, Client $client ) {
-        //
+
     }
 
     /**

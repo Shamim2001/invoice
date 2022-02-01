@@ -57,7 +57,7 @@
                                 <td class="border py-2 text-center">{{$client->country}}</td>
                                 <td class="border py-2 text-center">
                                     <div class="flex justify-between">
-                                        <a href="#" class="bg-emerald-800 text-white text-sm px-3 py-1 rounded">Edit</a>
+                                        <a href="{{ route('client.edit', $client->id) }}" class="bg-emerald-800 text-white text-sm px-3 py-1 rounded">Edit</a>
                                         <a href="#" class="bg-red-800 text-white text-sm px-3 py-1 rounded">Delete</a>
                                     </div>
                                 </td>
