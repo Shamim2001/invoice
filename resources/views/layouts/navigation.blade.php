@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('client.index')" :active="request()->is('dashboard/client*')">
                         {{ __('Client') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('task.index')" :active="request()->is('dashboard/task*')">
+                        {{ __('Task') }}
+                    </x-nav-link>
                 </div>
             </div>
 
