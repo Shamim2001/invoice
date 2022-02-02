@@ -56,9 +56,17 @@
                                 <td class="border py-2 text-center">{{$client->phone}}</td>
                                 <td class="border py-2 text-center">{{$client->country}}</td>
                                 <td class="border py-2 text-center">
-                                    <div class="flex justify-between">
-                                        <a href="{{ route('client.edit', $client->id) }}" class="bg-emerald-800 text-white text-sm px-3 py-1 rounded">Edit</a>
-                                        <a href="#" class="bg-red-800 text-white text-sm px-3 py-1 rounded">Delete</a>
+                                    <div class="flex justify-center">
+                                        <a href="{{ route('client.edit', $client->id) }}" class="bg-emerald-800 text-white text-sm px-3 py-1 rounded mr-2">Edit</a>
+
+                                        <form action="{{ route('client.destroy', $client->id) }}" method="POST" onsubmit="return confirm('Do you Really want to Delete?');">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit" class="bg-red-800 text-white text-sm px-3 py-1 rounded ">Delete</button>
+
+                                        </form>
+
                                     </div>
                                 </td>
                             </tr>

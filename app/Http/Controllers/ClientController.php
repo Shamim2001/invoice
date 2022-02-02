@@ -140,6 +140,11 @@ class ClientController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy( Client $client ) {
-        //
+
+        Storage::delete( 'public/uploads/' . $client->thumbnail );
+
+        $client->delete();
+
+        return redirect()->route( 'client.index' )->with( 'success', 'Client has been Deleted!' );
     }
 }
