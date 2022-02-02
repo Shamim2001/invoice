@@ -18,6 +18,7 @@
 
                     <form action="{{ route('client.update', $client->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
 
                         <div class="mt-6 flex">
                             <div class="flex-1 mr-4">
