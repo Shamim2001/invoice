@@ -71,8 +71,16 @@
                         <div class="mt-6 flex justify-between">
 
                             <div class="flex-1">
-                                <label for="country" class="formLabel">Country</label>
-                                <input type="text" name="country" id="country" class="formInput" value="{{ $client->country }}">
+
+                                <select name="country" id="country" class="formInput">
+                                    <option value="none">Select Country</option>
+
+                                    @foreach ($countries as $country)
+                                    <option value="{{ $country }}" {{ $client->country == $country ? 'selected' : '' }}>{{ $country }}</option>
+
+                                    @endforeach
+                                </select>
+
 
                                 @error('country')
                                     <p class="text-red-700 text-sm">{{$message}}</p>
