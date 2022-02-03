@@ -42,12 +42,7 @@ class TaskController extends Controller {
      */
     public function store( Request $request ) {
 
-        $request->validate( [
-            'name'        => ['required', 'max:255', 'string'],
-            'price'       => ['required', 'integer'],
-            'client_id'   => ['required', 'max:255', 'not_in:none'],
-            'description' => ['required'],
-        ] );
+        $this->taskValidation( $request );
 
         Task::create( [
             'name'        => $request->name,
@@ -77,7 +72,21 @@ class TaskController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit( Task $task ) {
-        //
+
+        return view( 'task.edit' )->with( [
+            'task'    => $task,
+            'clients' => Client::all(),
+        ] );
+    }
+
+    public function taskValidation( Request $request ) {
+
+        return $request->validate( [
+            'name'        => ['required', 'max:255', 'string'],
+            'price'       => ['required', 'integer'],
+            'client_id'   => ['required', 'max:255', 'not_in:none'],
+            'description' => ['required'],
+        ] );
     }
 
     /**
@@ -88,7 +97,18 @@ class TaskController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update( Request $request, Task $task ) {
-        //
+
+        $this->taskValidation( $request );
+
+        $task->update( [
+            'name'        => $request->name,
+            'price'       => $request->price,
+            'description' => $request->description,
+            'client_id'   => $request->client_id,
+            'user_id'     => Auth::user()->id,
+        ] );
+
+        return redirect()->route( 'task.index' )->with( 'success', 'Task Update Successfull!' );
     }
 
     /**
