@@ -16,6 +16,15 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
+                    @if ( count($clients) == 0)
+                    <div class="bg-orange-600 text-white py-2 text-center rounded">
+                        <p>You don't have any Client? <a href="{{ route('client.create') }}" class="bg-black text-white py-1 px-3 text-sm rounded">Add New Client</a></p>
+                        <p>You have define client frist</p>
+                    </div>
+                    @endif
+
+
+
                     <form action="{{ route('task.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
@@ -49,7 +58,7 @@
 
                                 <select name="client_id" id="client_id" class="formInput">
 
-                                    <option value="none">Select Country</option>
+                                    <option value="none">Select Client</option>
 
                                     @foreach ($clients as $client)
                                          <option value="{{ $client->id }}" {{  $client->id == old('client_id') ? 'selected' : '' }}>{{ $client->name }}</option>
@@ -84,8 +93,28 @@
                     </form>
 
 
+
+
                 </div>
             </div>
         </div>
     </div>
+
+    @section('scripts')
+        <script>
+            $('#description').summernote({
+                tabsize: 2,
+                height: 320,
+                toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        </script>
+    @endsection
 </x-app-layout>

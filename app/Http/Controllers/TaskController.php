@@ -62,7 +62,8 @@ class TaskController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show( Task $task ) {
-        //
+
+        return view( 'task.show' )->with( 'task', $task );
     }
 
     /**

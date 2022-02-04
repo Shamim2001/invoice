@@ -50,7 +50,7 @@
 
                                 <select name="client_id" id="client_id" class="formInput">
 
-                                    <option value="none">Select Country</option>
+                                    <option value="none">Select Client</option>
 
                                     @foreach ($clients as $client)
                                          <option value="{{ $client->id }}" {{  $client->id == $task->client_id ? 'selected' : '' }}>{{ $client->name }}</option>
