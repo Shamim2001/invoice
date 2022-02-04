@@ -71,7 +71,7 @@
                         <div class="mt-6 flex justify-between">
 
                             <div class="flex-1">
-
+                                <label for="country" class="formLabel">Country</label>
                                 <select name="country" id="country" class="formInput">
                                     <option value="none">Select Country</option>
 

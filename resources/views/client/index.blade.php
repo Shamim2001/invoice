@@ -26,6 +26,7 @@
                                 <th class="border">Email</th>
                                 <th class="border">Phone</th>
                                 <th class="border">Country</th>
+                                <th class="border">Task Count</th>
                                 <th class="border">Action</th>
                             </tr>
                         </thead>
@@ -52,6 +53,9 @@
                                 <td class="border py-2 text-center">{{$client->phone}}</td>
                                 <td class="border py-2 text-center">{{$client->country}}</td>
                                 <td class="border py-2 text-center">
+                                    <div class="w-8 h-8 leading-8 mx-auto bg-orange-400 rounded-full text-center text-white">{{ count($client->tasks) }}</div>
+                                </td>
+                                <td class="border py-2 px-2 text-center">
                                     <div class="flex justify-center">
                                         <a href="{{ route('client.edit', $client->id) }}" class="bg-emerald-800 text-white text-sm px-3 py-1 rounded mr-2">Edit</a>
 

@@ -91,4 +91,22 @@
             </div>
         </div>
     </div>
+
+    @section('scripts')
+        <script>
+            $('#description').summernote({
+                tabsize: 2,
+                height: 320,
+                toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        </script>
+    @endsection
 </x-app-layout>
