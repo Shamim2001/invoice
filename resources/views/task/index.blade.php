@@ -23,6 +23,7 @@
                                 <th class="border">#</th>
                                 <th class="border">Name</th>
                                 <th class="border">Price</th>
+                                <th class="border">Status</th>
                                 <th class="border">Client</th>
                                 <th class="border">Action</th>
                             </tr>
@@ -35,6 +36,7 @@
                                 <td class="border py-2 text-center px-2">{{$task->id}}</td>
                                 <td class="border py-2 text-left px-2">{{$task->name}}</td>
                                 <td class="border py-2 text-center">{{$task->price}}</td>
+                                <td class="border py-2 text-center capitalize">{{$task->status}}</td>
                                 <td class="border py-2 text-center">{{ $task->client->name }}</td>
 
                                 <td class="border py-2 text-center">
