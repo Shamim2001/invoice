@@ -19,6 +19,13 @@ class ClientController extends Controller {
         return view( 'client.index' )->with( 'clients', $data );
     }
 
+    public function searchTaskByClient( Client $client ) {
+
+        return view( 'task.search' )->with( [
+            'client' => $client,
+        ] );
+    }
+
     /**
      * Show the form for creating a new resource.
      *

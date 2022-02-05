@@ -53,7 +53,9 @@
                                 <td class="border py-2 text-center">{{$client->phone}}</td>
                                 <td class="border py-2 text-center">{{$client->country}}</td>
                                 <td class="border py-2 text-center">
-                                    <div class="w-8 h-8 leading-8 mx-auto bg-orange-400 rounded-full text-center text-white">{{ count($client->tasks) }}</div>
+                                    <div class="w-8 h-8 leading-8 mx-auto bg-orange-400 rounded-full text-center text-white">
+                                        <a href="{{ route('task.search', $client) }}">{{ count($client->tasks) }}</a>
+                                    </div>
                                 </td>
                                 <td class="border py-2 px-2 text-center">
                                     <div class="flex justify-center">

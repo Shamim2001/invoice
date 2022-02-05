@@ -1,9 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Tasks') }}
-            </h2>
+        <div class="flex justify-between items-center">
+            <div class="">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ $client->name }}
+                </h2>
+                <p>Email: {{ $client->email }}</p>
+                <p>Phone: {{ $client->phone }}</p>
+                <p>Country: {{ $client->country }}</p>
+            </div>
 
             <a href="{{ route('task.create') }}" class="border border-emerald-500 px-3 py-1 rounded">Add New</a>
         </div>
@@ -24,22 +29,18 @@
                                 <th class="border">Name</th>
                                 <th class="border">Price</th>
                                 <th class="border">Status</th>
-                                <th class="border">Client</th>
                                 <th class="border">Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
 
-                            @foreach ($tasks as $task)
+                            @foreach ($client->tasks as $task)
                             <tr>
                                 <td class="border py-2 text-center px-2">{{$task->id}}</td>
                                 <td class="border py-2 text-left px-2">{{$task->name}}</td>
                                 <td class="border py-2 text-center">{{$task->price}}</td>
                                 <td class="border py-2 text-center capitalize">{{$task->status}}</td>
-                                <td class="border py-2 text-center">
-                                    <a class="text-orange-500" href="{{ route('task.search',$task->client ) }}">{{ $task->client->name }}</a>
-                                </td>
 
                                 <td class="border py-2 text-center">
                                     <div class="flex justify-center">
@@ -68,9 +69,7 @@
 
                 </div>
 
-                <div class="mt-5">
-                    {{ $tasks->links() }}
-                </div>
+
             </div>
         </div>
     </div>
