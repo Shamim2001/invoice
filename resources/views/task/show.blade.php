@@ -21,6 +21,28 @@
                         <h2>Name: {{ $task->name }}</h2>
                         <h2>Price: ${{ $task->price }}</h2>
                         <h2>Client: {{ $task->client->name }}</h2>
+
+                        <div class="flex justify-between items-center">
+                            <div class="bg-blue-400 text-white px-3 py-1 capitalize inline-block rounded-md mt-3">
+                                <p>{{ $task->status }}</p>
+                            </div>
+
+                            @if ($task->status == 'pending')
+
+                            <div class="">
+                                <form action="{{ route('markAsComplete',$task) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <button type="submit" class="bg-blue-400 text-white px-3 py-1 capitalize inline-block rounded-md mt-3">Mark as Complete</button>
+                                </form>
+                            </div>
+                            @endif
+
+
+                        </div>
+
+
                         <h2 class="font-bold my-3">Task Details</h2>
 
                         <div class="border my-4 p-5 prose max-w-none">
