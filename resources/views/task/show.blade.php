@@ -23,8 +23,8 @@
                         <h2>Client: {{ $task->client->name }}</h2>
                         <h2 class="font-bold my-3">Task Details</h2>
 
-                        <div class="border my-4 p-5">
-                            {{!! $task->description !!}}
+                        <div class="border my-4 p-5 prose max-w-none">
+                            {!! $task->description!!}
                         </div>
                     </div>
 
