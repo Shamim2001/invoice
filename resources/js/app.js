@@ -15,3 +15,5 @@ jQuery(document).ready(function($) {
         $('#message').slideUp('slow');
     }, 2000);
 });
+
+CKEDITOR.replace('description');

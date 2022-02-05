@@ -24,7 +24,7 @@ Route::prefix( 'dashboard' )->middleware( ['auth'] )->group( function () {
 
     Route::resource( 'client', ClientController::class );
 
-    Route::get( 'task/{client:username}', [ClientController::class, 'searchTaskByClient'] )->name( 'task.search' );
+    Route::get( 'task/client/{client:username}', [ClientController::class, 'searchTaskByClient'] )->name( 'task.search' );
 
     Route::resource( 'task', TaskController::class );
 

@@ -77,7 +77,7 @@
                         <div class="mt-6 flex">
                             <div class="flex-1">
                                 <label for="description" class="formLabel">Description</label>
-                                <textarea name="description" id="description"  rows="10" class="formInput"></textarea>
+                                <textarea name="description" id="description"  rows="10" class="formInput">{{ old('description') }}</textarea>
 
                                 @error('description')
                                     <p class="text-red-700 text-sm">{{$message}}</p>
@@ -100,21 +100,5 @@
         </div>
     </div>
 
-    @section('scripts')
-        <script>
-            $('#description').summernote({
-                tabsize: 2,
-                height: 320,
-                toolbar: [
-                ['style', ['style']],
-                ['font', ['bold', 'underline', 'clear']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
-                ['insert', ['link', 'picture', 'video']],
-                ['view', ['fullscreen', 'codeview', 'help']]
-                ]
-            });
-        </script>
-    @endsection
+
 </x-app-layout>

@@ -46,7 +46,7 @@
                                     <div class="flex justify-center">
                                         <a href="{{ route('task.edit', $task->id) }}" class="bg-emerald-800 text-white text-sm px-3 py-1 rounded mr-2">Edit</a>
 
-                                        <a href="{{ route('task.show', $task->id) }}" class="bg-blue-600 text-white text-sm px-3 py-1 rounded mr-2">View</a>
+                                        <a href="{{ route('task.show', $task->slug) }}" class="bg-blue-600 text-white text-sm px-3 py-1 rounded mr-2">View</a>
 
                                         <form action="{{ route('task.destroy', $task->id) }}" method="POST" onsubmit="return confirm('Do you Really want to Delete?');">
                                             @csrf
