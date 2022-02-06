@@ -20,6 +20,12 @@ class DatabaseSeeder extends Seeder {
             'password'  => bcrypt( '123' ),
             'thumbnail' => 'https://picsum.phptos/300',
         ] );
+        User::create( [
+            'name'      => ' demo ',
+            'email'     => 'demo@gmail.com',
+            'password'  => bcrypt( '123' ),
+            'thumbnail' => 'https://picsum.phptos/300',
+        ] );
 
         Client::factory( 10 )->create();
 
