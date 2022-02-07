@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('task.index')" :active="request()->is('dashboard/task*')">
                         {{ __('Task') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('invoice.index')" :active="request()->routeIs('invoice.*')">
+                        {{ __('Invoice') }}
+                    </x-nav-link>
                 </div>
             </div>
 
