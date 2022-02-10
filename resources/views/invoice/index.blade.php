@@ -23,6 +23,7 @@
                                 <th class="border">#</th>
                                 <th class="border">Client</th>
                                 <th class="border">Status</th>
+                                <th class="border">Download</th>
                                 <th class="border">Action</th>
                             </tr>
                         </thead>
@@ -32,14 +33,16 @@
                             @foreach ($invoices as $invoice)
                             <tr>
                                 <td class="border py-2 text-center px-2">{{$invoice->invoice_id}}</td>
-                                <td class="border py-2 text-left px-2">{{ $invoice->client_id }}</td>
+                                <td class="border py-2 text-left px-2">{{ $invoice->client->name }}</td>
                                 <td class="border py-2 text-center capitalize">{{ $invoice->status}}</td>
+                                <td class="border py-2 text-center capitalize">
+                                    <a href="{{ $invoice->download_url }}" class="bg-purple-600 text-white text-sm px-3 py-1 rounded mr-2">Download PDF</a>
+                                </td>
 
                                 <td class="border py-2 text-center">
                                     <div class="flex justify-center">
                                         <a href="{{ route('invoice.edit', $invoice->id) }}" class="bg-emerald-800 text-white text-sm px-3 py-1 rounded mr-2">Edit</a>
 
-                                        <a href="{{ route('invoice.show', $invoice->id) }}" class="bg-blue-600 text-white text-sm px-3 py-1 rounded mr-2">View</a>
 
                                         <form action="{{ route('invoice.destroy', $invoice->id) }}" method="POST" onsubmit="return confirm('Do you Really want to Delete?');">
                                             @csrf
