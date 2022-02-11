@@ -39,6 +39,8 @@ Route::prefix( 'dashboard' )->middleware( ['auth'] )->group( function () {
     Route::delete( 'invoice/{invoice}/destroy', [InvoiceController::class, 'destroy'] )->name( 'invoice.destroy' );
     Route::delete( 'invoice/{invoice}', [InvoiceController::class, 'show'] )->name( 'invoice.show' );
 
+    Route::get( 'invoice/search', [InvoiceController::class, 'search'] )->name( 'invoice.search' );
+
 } );
 
 require __DIR__ . '/auth.php';
