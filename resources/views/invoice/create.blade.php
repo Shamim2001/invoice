@@ -31,7 +31,7 @@
 
                                     @foreach ($clients as $client)
 
-                                    <option value="{{ $client->id }}" {{ $client->id == old('client_id') ? "selected" : "" }}>{{ $client->name }}</option>
+                                    <option value="{{ $client->id }}" {{ $client->id == old('client_id') || $client->id == request('client_id')  ? "selected" : "" }}>{{ $client->name }}</option>
 
                                     @endforeach
                                 </select>
@@ -45,7 +45,7 @@
                                 <label for="status" class="formLabel">Select Status</label>
                                 <select name="status" id="status">
                                     <option value="none">Select Status</option>
-                                    <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="pending" {{ old('status') == 'pending' || request('status') == 'pending'  ? 'selected' : '' }}>Pending</option>
                                     <option value="complete" {{ old('status') == 'complete' ? 'selected' : '' }}>Complete</option>
                                 </select>
 
@@ -54,7 +54,7 @@
 
                             <div class="">
                                 <label for="formDate" class="formLabel">Start Date</label>
-                                <input type="date" class="formInput" name="formData" id="formData" max="{{ now()->format('Y-m-d') }}">
+                                <input type="date" class="formInput" name="formData" id="formData" max="{{  now()->format('Y-m-d') }}" value="{{ request('formData') }}">
                             </div>
                              @error('formDate')
                                 <p class="text-red-700 text-sm">{{$message}}</p>
@@ -62,7 +62,7 @@
 
                             <div class="">
                                 <label for="endDate" class="formLabel">End Date</label>
-                                <input type="date" class="formInput" name="endData" id="endData" value="{{ now()->format('Y-m-d') }}" max="{{ now()->format('Y-m-d') }}" >
+                                <input type="date" class="formInput" name="endData" id="endData" value="{{ request('endData') !='' ? request('endData') : now()->format('Y-m-d') }}" max="{{ now()->format('Y-m-d') }}" >
                             </div>
                              @error('endDate')
                                 <p class="text-red-700 text-sm">{{$message}}</p>
@@ -76,7 +76,38 @@
 
                     </form>
 
+                    <div class="mt-10">
+                        @if ($tasks)
 
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr>
+                                    <th class="border">name</th>
+                                    <th class="border">Status</th>
+                                    <th class="border">client</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @foreach ($tasks as $task)
+                                <tr>
+                                    <td class="border py-2 text-left px-2">{{ $task->name }}</td>
+                                    <td class="border py-2 text-center capitalize">{{ $task->status}}</td>
+                                    <td class="border py-2 text-center capitalize">{{ $task->client->name}}</td>
+
+
+                                </tr>
+
+
+                                @endforeach
+
+
+                            </tbody>
+                        </table>
+
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\invoice;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,6 +21,7 @@ class InvoiceController extends Controller {
         return view( 'invoice.create' )->with( [
 
             'clients' => Client::where( 'user_id', Auth::user()->id )->get(),
+            'tasks'   => false,
         ] );
     }
 
@@ -48,6 +50,30 @@ class InvoiceController extends Controller {
         $request->validate( [
             'client_id' => ['required', 'not_in:none'],
             'status'    => ['required', 'not_in:none'],
+        ] );
+
+        $tasks = Task::latest();
+
+        if ( !empty( $request->client_id ) ) {
+            $tasks = $tasks->where( 'client_id', '=', $request->client_id );
+        }
+
+        if ( !empty( $request->status ) ) {
+            $tasks = $tasks->where( 'status', '=', $request->status );
+        }
+
+        if ( !empty( $request->formDate ) ) {
+            $tasks = $tasks->whereDate( 'created_at', '>=', $request->formDate );
+        }
+
+        if ( !empty( $request->endDate ) ) {
+            $tasks = $tasks->whereDate( 'created_at', '<=', $request->endDate );
+        }
+
+        return view( 'invoice.create' )->with( [
+
+            'clients' => Client::where( 'user_id', Auth::user()->id )->get(),
+            'tasks'   => $tasks->get(),
         ] );
     }
 }
