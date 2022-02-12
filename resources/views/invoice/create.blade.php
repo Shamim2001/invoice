@@ -76,9 +76,9 @@
 
                     </form>
 
-                    <div class="mt-10">
-                        @if ($tasks)
+                    @if ($tasks)
 
+                    <div class="mt-10">
                         <table class="w-full border-collapse">
                             <thead>
                                 <tr>
@@ -105,6 +105,11 @@
 
                             </tbody>
                         </table>
+
+
+                        <div class="flex justify-center mt-5">
+                            <a href="{{ route('preview.invoice') }}" class="bg-purple-400 text-white px-3 py-2 rounded-sm">Preview</a>
+                        </div>
 
                         @endif
                     </div>

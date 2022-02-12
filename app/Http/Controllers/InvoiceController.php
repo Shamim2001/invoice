@@ -76,4 +76,10 @@ class InvoiceController extends Controller {
             'tasks'   => $tasks->get(),
         ] );
     }
+
+    // preview
+    public function preview() {
+
+        return view( 'invoice.preview' );
+    }
 }
