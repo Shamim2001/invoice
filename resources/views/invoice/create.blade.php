@@ -54,7 +54,7 @@
 
                             <div class="">
                                 <label for="formDate" class="formLabel">Start Date</label>
-                                <input type="date" class="formInput" name="formData" id="formData" max="{{  now()->format('Y-m-d') }}" value="{{ request('formData') }}">
+                                <input type="date" class="formInput" name="formDate" id="formDate" max="{{  now()->format('Y-m-d') }}" value="{{ request('formDate') }}">
                             </div>
                              @error('formDate')
                                 <p class="text-red-700 text-sm">{{$message}}</p>
@@ -62,7 +62,7 @@
 
                             <div class="">
                                 <label for="endDate" class="formLabel">End Date</label>
-                                <input type="date" class="formInput" name="endData" id="endData" value="{{ request('endData') !='' ? request('endData') : now()->format('Y-m-d') }}" max="{{ now()->format('Y-m-d') }}" >
+                                <input type="date" class="formInput" name="endDate" id="endDate" value="{{ request('endDate') !='' ? request('endDate') : now()->format('Y-m-d') }}" max="{{ now()->format('Y-m-d') }}" >
                             </div>
                              @error('endDate')
                                 <p class="text-red-700 text-sm">{{$message}}</p>
@@ -107,8 +107,9 @@
                         </table>
 
 
+
                         <div class="flex justify-center mt-5">
-                            <a href="{{ route('preview.invoice') }}" class="bg-purple-400 text-white px-3 py-2 rounded-sm">Preview</a>
+                            <a href="{{ route('preview.invoice') }}{{ '?client_id=' . request('client_id') .'&status=' .request('status'). '&formDate=' .request('formDate'). '&endDate=' .request('endDate') }}" class="bg-purple-400 text-white px-3 py-2 rounded-sm">Preview</a>
                         </div>
 
                         @endif

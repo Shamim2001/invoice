@@ -80,6 +80,8 @@ class InvoiceController extends Controller {
     // preview
     public function preview() {
 
-        return view( 'invoice.preview' );
+        return view( 'invoice.preview' )->with( [
+            'user' => Auth::user(),
+        ] );
     }
 }

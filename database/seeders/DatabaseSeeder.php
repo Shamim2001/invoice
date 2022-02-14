@@ -18,12 +18,18 @@ class DatabaseSeeder extends Seeder {
         User::create( [
             'name'      => 'Shamim Ahmed',
             'email'     => 'test@gmail.com',
+            'company'   => 'pixCafe Network',
+            'phone'     => '+8801887144113',
+            'country'   => 'Bangladesh',
             'password'  => bcrypt( '123' ),
             'thumbnail' => 'https://picsum.phptos/300',
         ] );
         User::create( [
             'name'      => ' demo ',
             'email'     => 'demo@gmail.com',
+            'company'   => 'Demo Network',
+            'phone'     => '187144113',
+            'country'   => 'Bangladesh',
             'password'  => bcrypt( '123' ),
             'thumbnail' => 'https://picsum.phptos/300',
         ] );

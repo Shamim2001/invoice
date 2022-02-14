@@ -162,10 +162,10 @@
             </div>
             <div class="invoice_from">
                 <h2>FROM</h2>
-                <p><strong class="">Shamim Ahmed</strong></p>
-                <p><small class="">fixCafe Network</small></p>
-                <p><small class="">admin@pixcafe.com</small></p>
-                <p><small class="">Bangladesh</small></p>
+                <p><strong class="">{{ $user->name }}</strong></p>
+                <p><small class="">{{ $user->company }}</small></p>
+                <p><small class="">{{ $user->email }}</small></p>
+                <p><small class="">{{ $user->country }}</small></p>
             </div>
         </div>
         <div class="invoice_list">
