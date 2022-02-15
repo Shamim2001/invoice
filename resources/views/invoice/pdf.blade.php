@@ -14,7 +14,7 @@
             color: #212529;
             text-align: left;
             background-color: #fff;
-            font-size: 13px;
+            font-size: 10px;
             margin: 36pt;
             position: relative
         }
@@ -137,15 +137,15 @@
                 <h2 class="header_title">INVOICE</h2>
                 <div>
                     <span class="w-1/3">INVOICE NO</span>
-                    <strong class="w-3/5"><span class="mx-5">:</span> INVO_1423534</strong>
+                    <strong class="w-3/5"><span class="mx-5">:</span> {{ $invoice_no }}</strong>
                 </div>
                 <div>
                     <span class="w-1/3">INVOICE DATE</span>
-                    <strong class="w-3/5"><span class="mx-5">:</span>January 20, 2022</strong>
+                    <strong class="w-3/5"><span class="mx-5">:</span>{{ Carbon\Carbon::now()->format('d M, Y') }}</strong>
                 </div>
                 <div>
                     <span class="w-1/3">INVOICE DUE</span>
-                    <strong class="w-3/5"><span class="mx-5">:</span> January 28, 2022</strong>
+                    <strong class="w-3/5"><span class="mx-5">:</span> {{ Carbon\Carbon::now()->addDays(5)->format('d M, Y') }}</strong>
                 </div>
             </div>
             <div class="header_logo">
@@ -155,16 +155,18 @@
         <div class="invoice_from_to">
             <div class="invoice_to">
                 <h2>INVOICE TO</h2>
-                <p><strong class="">Jhon Deo</strong></p>
-                <p><small class="">shamim@gmail.com</small></p>
-                <p><small class="">+1234567</small></p>
-                <p><small class="">USA</small></p>
+                <p><strong class="">{{ $tasks->first()->client->name }}</strong></p>
+                <p><strong class="">{{ $tasks->first()->client->email }}</strong></p>
+                <p><strong class="">{{ $tasks->first()->client->company }}</strong></p>
+                <p><strong class="">{{ $tasks->first()->client->phone }}</strong></p>
+                <p><strong class="">{{ $tasks->first()->client->country }}</strong></p>
             </div>
             <div class="invoice_from">
                 <h2>FROM</h2>
                 <p><strong class="">{{ $user->name }}</strong></p>
                 <p><small class="">{{ $user->company }}</small></p>
                 <p><small class="">{{ $user->email }}</small></p>
+                <p><small class="">{{ $user->phone }}</small></p>
                 <p><small class="">{{ $user->country }}</small></p>
             </div>
         </div>
@@ -180,11 +182,15 @@
                 <tbody>
 
 
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</td>
-                        <td style="text-align:center">0</td>
-                        <td style="text-align:right">400</td>
-                    </tr>
+                    @foreach ( $tasks as $task )
+                        <tr>
+                            <td>{{ $task->name }}</td>
+                            <td style="text-align:center">0</td>
+                            <td style="text-align:right">{{ $task->price }}</td>
+                        </tr>
+                    @endforeach
+
+
 
                 </tbody>
             </table>
@@ -192,7 +198,7 @@
             <div class="invoice_footer">
                 <div class="single_footer">
                     <span>Subtotal: </span>
-                    <strong> $16000</strong>
+                    <strong> ${{ number_format($tasks->sum('price'), 0) }}</strong>
                 </div>
                 <div class="single_footer">
                     <span>Discount: </span>
@@ -200,11 +206,11 @@
                 </div>
                 <div class="single_footer">
                     <span>Total: </span>
-                    <strong>$1600</strong>
+                    <strong>${{ number_format($tasks->sum('price'), 0) }}</strong>
                 </div>
             </div>
             <div class="amount_total">
-                <h2><span>Amount Due:</span> <strong>$1600</strong></h2>
+                <h2><span>Amount Due:</span> <strong>${{ number_format($tasks->sum('price'), 0) }}</strong></h2>
             </div>
         </div>
         <div class="copyright">

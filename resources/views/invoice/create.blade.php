@@ -45,8 +45,8 @@
                                 <label for="status" class="formLabel">Select Status</label>
                                 <select name="status" id="status">
                                     <option value="none">Select Status</option>
-                                    <option value="pending" {{ old('status') == 'pending' || request('status') == 'pending'  ? 'selected' : '' }}>Pending</option>
-                                    <option value="complete" {{ old('status') == 'complete' ? 'selected' : '' }}>Complete</option>
+                                    <option value="pending" {{ old('status') == 'pending' || request('status')=='pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="complete" {{ old('status') == 'complete' || request('status')=='complete' ? 'selected' : '' }}>Complete</option>
                                 </select>
 
 
@@ -84,7 +84,7 @@
                                 <tr>
                                     <th class="border">name</th>
                                     <th class="border">Status</th>
-                                    <th class="border">client</th>
+                                    <th class="border">Price</th>
                                 </tr>
                             </thead>
 
@@ -93,8 +93,8 @@
                                 @foreach ($tasks as $task)
                                 <tr>
                                     <td class="border py-2 text-left px-2">{{ $task->name }}</td>
-                                    <td class="border py-2 text-center capitalize">{{ $task->status}}</td>
-                                    <td class="border py-2 text-center capitalize">{{ $task->client->name}}</td>
+                                    <td class="border py-2 text-center capitalize">{{ $task->status }}</td>
+                                    <td class="border py-2 text-center capitalize">{{ $task->price }}</td>
 
 
                                 </tr>

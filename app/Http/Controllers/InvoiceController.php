@@ -52,6 +52,15 @@ class InvoiceController extends Controller {
             'status'    => ['required', 'not_in:none'],
         ] );
 
+        return view( 'invoice.create' )->with( [
+
+            'clients' => Client::where( 'user_id', Auth::user()->id )->get(),
+            'tasks'   => $this->getInvoiceData( $request ),
+        ] );
+    }
+
+    public function getInvoiceData( Request $request ) {
+
         $tasks = Task::latest();
 
         if ( !empty( $request->client_id ) ) {
@@ -69,19 +78,16 @@ class InvoiceController extends Controller {
         if ( !empty( $request->endDate ) ) {
             $tasks = $tasks->whereDate( 'created_at', '<=', $request->endDate );
         }
-
-        return view( 'invoice.create' )->with( [
-
-            'clients' => Client::where( 'user_id', Auth::user()->id )->get(),
-            'tasks'   => $tasks->get(),
-        ] );
+        return $tasks->get();
     }
 
     // preview
-    public function preview() {
+    public function preview( Request $request ) {
 
         return view( 'invoice.preview' )->with( [
-            'user' => Auth::user(),
+            'invoice_no' => 'INVO_' . rand( 234565, 23568533 ),
+            'user'       => Auth::user(),
+            'tasks'      => $this->getInvoiceData( $request ),
         ] );
     }
 }
