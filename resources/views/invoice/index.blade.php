@@ -36,7 +36,7 @@
                                 <td class="border py-2 text-left px-2">{{ $invoice->client->name }}</td>
                                 <td class="border py-2 text-center capitalize">{{ $invoice->status}}</td>
                                 <td class="border py-2 text-center capitalize">
-                                    <a href="{{ $invoice->download_url }}" class="bg-purple-600 text-white text-sm px-3 py-1 rounded mr-2">Download PDF</a>
+                                    <a target="_blank" href="{{ asset('storage/invoices/'. $invoice->download_url )  }}" class="bg-purple-600 text-white text-sm px-3 py-1 rounded mr-2">View Invoice</a>
                                 </td>
 
                                 <td class="border py-2 text-center">
