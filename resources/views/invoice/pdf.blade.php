@@ -39,6 +39,7 @@
             display: table-cell;
             vertical-align: middle;
             text-align: right;
+            width: 80px;
         }
         .header_title {
             font-weight: 600;
@@ -149,7 +150,13 @@
                 </div>
             </div>
             <div class="header_logo">
-                <img src="img/logo.png" class="w-40" alt="">
+
+                @if (request()->routeIs('preview.invoice'))
+
+                <img src="{{ asset('img/logo.png') }}"  class="w-40" alt="">
+                @else
+                <img src="img/logo.png" width="80" class="w-40" alt="">
+                @endif
             </div>
         </div>
         <div class="invoice_from_to">

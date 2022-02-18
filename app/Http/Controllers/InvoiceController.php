@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\invoice;
 use App\Models\Task;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -89,5 +90,18 @@ class InvoiceController extends Controller {
             'user'       => Auth::user(),
             'tasks'      => $this->getInvoiceData( $request ),
         ] );
+    }
+
+    // generate
+    public function generate( Request $request ) {
+
+        $invo_no = 'INVO_' . rand( 234565, 23568533 );
+        $data = [
+            'invoice_no' => $invo_no,
+            'user'       => Auth::user(),
+            'tasks'      => $this->getInvoiceData( $request ),
+        ];
+        $pdf = PDF::loadView( 'invoice.pdf', $data );
+        return $pdf->download( $invo_no . '.pdf' );
     }
 }

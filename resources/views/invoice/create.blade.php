@@ -108,8 +108,10 @@
 
 
 
-                        <div class="flex justify-center mt-5">
+                        <div class="flex justify-center mt-5 space-x-5">
                             <a href="{{ route('preview.invoice') }}{{ '?client_id=' . request('client_id') .'&status=' .request('status'). '&formDate=' .request('formDate'). '&endDate=' .request('endDate') }}" class="bg-purple-400 text-white px-3 py-2 rounded-sm">Preview</a>
+
+                            <a href="{{ route('invoice.generate') }}{{ '?client_id=' . request('client_id') .'&status=' .request('status'). '&formDate=' .request('formDate'). '&endDate=' .request('endDate') }}" class="bg-green-400 text-white px-3 py-2 rounded-sm">Generate PDF</a>
                         </div>
 
                         @endif

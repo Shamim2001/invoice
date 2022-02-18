@@ -15,7 +15,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+                <div class="p-6 bg-white  border-gray-200">
 
                     <table class="w-full border-collapse">
                         <thead>
@@ -30,7 +30,7 @@
 
                         <tbody>
 
-                            @foreach ($invoices as $invoice)
+                            @forelse ($invoices as $invoice)
                             <tr>
                                 <td class="border py-2 text-center px-2">{{$invoice->invoice_id}}</td>
                                 <td class="border py-2 text-left px-2">{{ $invoice->client->name }}</td>
@@ -56,8 +56,13 @@
                                 </td>
                             </tr>
 
+                            @empty
+                            <tr>
+                                <td class="border py-2 text-center" colspan="5">No Invoice Found!</td>
+                            </tr>
 
-                            @endforeach
+
+                            @endforelse
 
 
                         </tbody>
