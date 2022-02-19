@@ -40,9 +40,19 @@
                                 </td>
 
                                 <td class="border py-2 text-center">
-                                    <div class="flex justify-center">
-                                        <a href="{{ route('invoice.edit', $invoice->id) }}" class="bg-emerald-800 text-white text-sm px-3 py-1 rounded mr-2">Edit</a>
+                                    <div class="flex justify-center space-x-4">
 
+                                        @if ($invoice->status == 'unpaid')
+
+
+                                        <form action="{{ route('invoice.update', $invoice->id) }}" method="POST" onsubmit="return confirm('Did you get paid?');">
+                                            @csrf
+                                            @method('PUT')
+
+                                            <button type="submit" class="bg-blue-800 text-white text-sm px-3 py-1 rounded ">Paid</button>
+
+                                        </form>
+                                         @endif
 
                                         <form action="{{ route('invoice.destroy', $invoice->id) }}" method="POST" onsubmit="return confirm('Do you Really want to Delete?');">
                                             @csrf
