@@ -5484,7 +5484,21 @@ alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"].start();
 jQuery(document).ready(function ($) {
   setTimeout(function () {
     $('#message').slideUp('slow');
-  }, 2000);
+  }, 2000); // filter task Box
+
+  $('#task_filter_btn').on('click', function () {
+    var text = $(this).text();
+
+    if (text == 'Filter') {
+      $(this).text('Close Filter');
+    }
+
+    if (text == 'Close Filter') {
+      $(this).text('Filter');
+    }
+
+    $('#task_filter').slideToggle('slow');
+  });
 });
 CKEDITOR.replace('description');
 

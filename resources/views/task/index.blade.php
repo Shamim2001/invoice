@@ -15,7 +15,7 @@
     <div class="py-12">
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="mb-6 bg-white py-10 rounded-md">
+            <div class="mb-6 bg-white py-10 rounded-md " {{ request('client_id') || request('status') || request('formDate') || request('endDate') || request('price') ? '' : 'hidden' }} id="task_filter">
                 <h2 class="text-center mb-6 font-bold">Filter Tasks</h2>
                 <form action="{{ route('task.index') }}" method="GET">
                     <div class="flex space-x-4 items-end justify-center">
@@ -82,10 +82,13 @@
                     </div>
 
                 </form>
-        </div>
+            </div>
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-
+                    <div class="text-right">
+                        <button id="task_filter_btn" type="button" class="bg-blue-500 text-white px-3 py-1 mb-6 rounded-sm">{{ request('client_id') || request('status') || request('formDate') || request('endDate') || request('price') ? 'Close Filter' : 'Filter' }}</button>
+                    </div>
                     <table class="w-full border-collapse">
                         <thead>
                             <tr>
