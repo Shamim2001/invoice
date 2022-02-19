@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller {
+
+    /**
+     * Invoice index
+     */
     public function index() {
 
         return view( 'invoice.index' )->with( [
@@ -18,23 +22,35 @@ class InvoiceController extends Controller {
         ] );
     }
 
-    public function create() {
+    /**
+     * @panam Request
+     * create function
+     */
+    public function create( Request $request ) {
+
+        $tasks = false;
+
+        // if to client_id & status
+        if ( !empty( $request->client_id ) && !empty( $request->status ) ) {
+            $request->validate( [
+                'client_id' => ['required', 'not_in:none'],
+                'status'    => ['required', 'not_in:none'],
+            ] );
+
+            $tasks = $this->getInvoiceData( $request );
+        }
 
         return view( 'invoice.create' )->with( [
 
             'clients' => Client::where( 'user_id', Auth::user()->id )->get(),
-            'tasks'   => false,
+            'tasks'   => $tasks,
         ] );
     }
 
-    public function edit() {
-
-    }
-
-    public function store( Request $request ) {
-
-    }
-
+    /**
+     * @panam Request, Invoice
+     * update invoice status to paid
+     */
     public function update( Request $request, Invoice $invoice ) {
 
         $invoice->update( [
@@ -42,31 +58,25 @@ class InvoiceController extends Controller {
 
         ] );
 
-        return redirect()->route( 'invoice.index' )->with( 'success', 'Invoice Marks as Completed!' );
+        return redirect()->route( 'invoice.index' )->with( 'success', 'Invoice payment paided!' );
     }
 
-    public function show( Invoice $invoice ) {
-
-    }
-
+    /**
+     * @function destroy
+     * delete invoice info
+     */
     public function destroy( Invoice $invoice ) {
 
+        Storage::delete( 'public/invoices/' . $invoice->download_url );
+        $invoice->delete();
+
+        return redirect()->route( 'invoice.index' )->with( 'success', 'Invoice has been Deleted!' );
     }
 
-    public function search( Request $request ) {
-
-        $request->validate( [
-            'client_id' => ['required', 'not_in:none'],
-            'status'    => ['required', 'not_in:none'],
-        ] );
-
-        return view( 'invoice.create' )->with( [
-
-            'clients' => Client::where( 'user_id', Auth::user()->id )->get(),
-            'tasks'   => $this->getInvoiceData( $request ),
-        ] );
-    }
-
+    /**
+     * @function Get Invoice Data
+     * return Tasks
+     */
     public function getInvoiceData( Request $request ) {
 
         $tasks = Task::latest();
@@ -89,7 +99,10 @@ class InvoiceController extends Controller {
         return $tasks->get();
     }
 
-    // preview
+    /**
+     * function preview
+     * preview invoice
+     */
     public function preview( Request $request ) {
 
         return view( 'invoice.preview' )->with( [
@@ -99,7 +112,11 @@ class InvoiceController extends Controller {
         ] );
     }
 
-    // generate
+    /**
+     * function generation
+     * PDF generation
+     * invoice insert
+     */
     public function generate( Request $request ) {
 
         $invo_no = 'INVO_' . rand( 234565, 23568533 );
