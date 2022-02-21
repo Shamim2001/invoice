@@ -83,7 +83,12 @@ class ClientController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show( Client $client ) {
-        //
+        $client = $client->load( 'tasks', 'invoices' );
+        return view( 'client.profile' )->with( [
+            'client'        => $client,
+            'pending_tasks' => $client->tasks->where( 'status', 'pending' ),
+            'paid_invoices' => $client->invoices->where( 'status', 'paid' ),
+        ] );
     }
 
     /**

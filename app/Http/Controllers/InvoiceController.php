@@ -8,6 +8,7 @@ use App\Models\Task;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller {
@@ -141,5 +142,17 @@ class InvoiceController extends Controller {
         ] );
 
         return redirect()->route( 'invoice.index' )->with( 'success', 'Invoice Created' );
+    }
+
+    // send email
+    public function sendEmail( Invoice $invoice ) {
+
+        Mail::send( 'emails.invoice', [''], function ( $message ) {
+            $message->from( 'john@johndoe.com', 'John Doe' );
+            $message->to( 'john@johndoe.com', 'John Doe' );
+            $message->subject( 'Test Email' );
+        } );
+
+        return redirect()->route( 'invoice.index' )->with( 'success', 'Email Send' );
     }
 }

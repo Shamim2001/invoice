@@ -115,7 +115,7 @@
 
                                 <td class="border py-2 text-center">
                                     <div class="flex justify-center">
-                                        <a href="{{ route('task.edit', $task->id) }}" class="bg-emerald-800 text-white text-sm px-3 py-1 rounded mr-2">Edit</a>
+                                        <a href="{{ route('task.edit', $task->id) }}" class="bg-emerald-800 text-white text-sm px-3 py-1 rounded mr-2 hover:bg-transparent hover:text-black duration-300">Edit</a>
 
                                         <form action="{{ route('task.destroy', $task->id) }}" method="POST" onsubmit="return confirm('Do you Really want to Delete?');">
                                             @csrf
