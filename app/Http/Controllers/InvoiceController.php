@@ -147,10 +147,16 @@ class InvoiceController extends Controller {
     // send email
     public function sendEmail( Invoice $invoice ) {
 
-        Mail::send( 'emails.invoice', [''], function ( $message ) {
-            $message->from( 'john@johndoe.com', 'John Doe' );
-            $message->to( 'john@johndoe.com', 'John Doe' );
-            $message->subject( 'Test Email' );
+        $data = [
+            'user'       => Auth::user(),
+            'invoice_id' => $invoice->invoice_id,
+            'client'     => $invoice->client,
+        ];
+
+        Mail::send( 'emails.invoice', $data, function ( $message ) use ( $invoice ) {
+            $message->from( Auth::user()->email, Auth::user()->name );
+            $message->to( $invoice->client->email, $invoice->client->name );
+            $message->subject( $invoice->invoice_id );
         } );
 
         return redirect()->route( 'invoice.index' )->with( 'success', 'Email Send' );
