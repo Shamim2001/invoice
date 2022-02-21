@@ -147,16 +147,22 @@ class InvoiceController extends Controller {
     // send email
     public function sendEmail( Invoice $invoice ) {
 
+        $pdf = Storage::get( 'public/invoices/' . $invoice->download_url );
+
         $data = [
             'user'       => Auth::user(),
             'invoice_id' => $invoice->invoice_id,
             'client'     => $invoice->client,
         ];
 
-        Mail::send( 'emails.invoice', $data, function ( $message ) use ( $invoice ) {
+        Mail::send( 'emails.invoice', $data, function ( $message ) use ( $invoice, $pdf ) {
             $message->from( Auth::user()->email, Auth::user()->name );
             $message->to( $invoice->client->email, $invoice->client->name );
             $message->subject( $invoice->invoice_id );
+            $message->attachData( $pdf, $invoice->download_url, [
+                'mime' => 'application/pdf',
+            ] );
+
         } );
 
         return redirect()->route( 'invoice.index' )->with( 'success', 'Email Send' );
