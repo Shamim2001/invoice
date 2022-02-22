@@ -8,17 +8,16 @@ use Illuminate\Queue\SerializesModels;
 
 class InvoiceMail extends Mailable {
     use Queueable, SerializesModels;
-    public $data, $pdf;
+    public $data;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct( $data, $pdf ) {
+    public function __construct( $data ) {
 
         $this->data = $data;
-        $this->pdf = $pdf;
     }
 
     /**
@@ -28,11 +27,16 @@ class InvoiceMail extends Mailable {
      */
     public function build() {
 
-        $data = $this->data;
-        $pdf = $this->pdf;
+        $user = $this->data['user'];
+        $invoice = $this->data['invoice'];
+        $client = $this->data['invoice']->client;
+        $invoice_id = $this->data['invoice_id'];
+        $pdf = $this->data['pdf'];
 
-        return $this->markdown( 'emails.invoice' )->to( $data['client']->email, $data['client']->name )->subject( $data['invoice_id'] )->from( $data['user']->email, $data['user']->name )->attachData( $pdf, $data['invoice']->download_url, [
-            'mime' => 'application/pdf',
-        ] );
+        return $this->markdown( 'emails.invoice' )
+            ->from( $user->email, $user->name )
+            ->to( $client->email, $client->name )
+            ->subject( $invoice_id )
+            ->attachData( $pdf, $invoice->download_url, ['mime' => 'application/pdf'] );
     }
 }

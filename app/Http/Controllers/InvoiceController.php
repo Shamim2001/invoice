@@ -153,11 +153,11 @@ class InvoiceController extends Controller {
         $data = [
             'user'       => Auth::user(),
             'invoice_id' => $invoice->invoice_id,
-            'client'     => $invoice->client,
             'invoice'    => $invoice,
+            'pdf'        => $pdf,
         ];
 
-        Mail::send( new InvoiceMail( $data, $pdf ) );
+        Mail::send( new InvoiceMail( $data ) );
 
         // Mail::send( 'emails.invoice', $data, function ( $message ) use ( $invoice, $pdf ) {
         //     $message->from( Auth::user()->email, Auth::user()->name );
