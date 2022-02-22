@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\InvoiceMail;
 use App\Models\Client;
 use App\Models\invoice;
 use App\Models\Task;
@@ -153,17 +154,24 @@ class InvoiceController extends Controller {
             'user'       => Auth::user(),
             'invoice_id' => $invoice->invoice_id,
             'client'     => $invoice->client,
+            'invoice'    => $invoice,
         ];
 
-        Mail::send( 'emails.invoice', $data, function ( $message ) use ( $invoice, $pdf ) {
-            $message->from( Auth::user()->email, Auth::user()->name );
-            $message->to( $invoice->client->email, $invoice->client->name );
-            $message->subject( $invoice->invoice_id );
-            $message->attachData( $pdf, $invoice->download_url, [
-                'mime' => 'application/pdf',
-            ] );
+        Mail::send( new InvoiceMail( $data, $pdf ) );
 
-        } );
+        // Mail::send( 'emails.invoice', $data, function ( $message ) use ( $invoice, $pdf ) {
+        //     $message->from( Auth::user()->email, Auth::user()->name );
+        //     $message->to( $invoice->client->email, $invoice->client->name );
+        //     $message->subject( $invoice->invoice_id );
+        //     $message->attachData( $pdf, $invoice->download_url, [
+        //         'mime' => 'application/pdf',
+        //     ] );
+
+        // } );
+
+        $invoice->update( [
+            'email_sent' => 'yes',
+        ] );
 
         return redirect()->route( 'invoice.index' )->with( 'success', 'Email Send' );
     }

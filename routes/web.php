@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\TaskController;
+use App\Mail\InvoiceMail;
 use Illuminate\Support\Facades\Route;
 
 // backend
@@ -31,6 +32,11 @@ Route::prefix( '/' )->middleware( ['auth'] )->group( function () {
         Route::get( '/preview', [InvoiceController::class, 'preview'] )->name( 'preview.invoice' );
         Route::get( '/generate', [InvoiceController::class, 'generate'] )->name( 'invoice.generate' );
         Route::get( '/email/send/{invoice:invoice_id}', [InvoiceController::class, 'sendEmail'] )->name( 'invoice.sendEmail' );
+    } );
+
+    Route::get( 'email', function () {
+
+        return new InvoiceMail();
     } );
 
 } );
