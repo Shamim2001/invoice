@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\InvoiceMail;
+use App\Jobs\InvoiceEmailJob;
 use App\Models\Client;
 use App\Models\invoice;
 use App\Models\Task;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller {
@@ -157,7 +156,8 @@ class InvoiceController extends Controller {
             // 'pdf'        => $pdf,
         ];
 
-        Mail::send( new InvoiceMail( $data ) );
+        // InvoiceEmailJob::dispatch( $data );
+        dispatch( new InvoiceEmailJob( $data ) );
 
         // Mail::send( 'emails.invoice', $data, function ( $message ) use ( $invoice, $pdf ) {
         //     $message->from( Auth::user()->email, Auth::user()->name );
