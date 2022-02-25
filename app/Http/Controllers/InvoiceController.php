@@ -148,13 +148,13 @@ class InvoiceController extends Controller {
     // send email
     public function sendEmail( Invoice $invoice ) {
 
-        $pdf = Storage::get( 'public/invoices/' . $invoice->download_url );
+        // $pdf = Storage::get( 'public/invoices/' . $invoice->download_url );
 
         $data = [
             'user'       => Auth::user(),
             'invoice_id' => $invoice->invoice_id,
             'invoice'    => $invoice,
-            'pdf'        => $pdf,
+            // 'pdf'        => $pdf,
         ];
 
         Mail::send( new InvoiceMail( $data ) );
