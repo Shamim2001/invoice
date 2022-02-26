@@ -91,7 +91,7 @@
 
                             <tbody>
 
-                                <form action="{{ route('invoice.generate') }}" method="GET" id="tasksInvoiceForm">
+                                <form action="{{ route('invoice') }}" method="GET" id="tasksInvoiceForm">
                                     @csrf
                                     @foreach ($tasks as $task)
                                     <tr>
@@ -113,9 +113,11 @@
 
 
                         <div class="flex justify-center mt-5 space-x-5">
-                            <a href="{{ route('preview.invoice') }}{{ '?client_id=' . request('client_id') .'&status=' .request('status'). '&formDate=' .request('formDate'). '&endDate=' .request('endDate') }}" class="bg-purple-400 text-white px-3 py-2 rounded-sm">Preview</a>
 
-                            <button type="submit" form="tasksInvoiceForm" class="bg-green-400 text-white px-3 py-2 rounded-sm">Generate</button>
+
+                            <button type="submit" name="preview" value="yes" form="tasksInvoiceForm" class="bg-purple-400 text-white px-3 py-2 rounded-sm">Preview</button>
+
+                            <button type="submit" name="generate" value="yes" form="tasksInvoiceForm" class="bg-green-400 text-white px-3 py-2 rounded-sm">Generate</button>
                         </div>
 
                         @endif

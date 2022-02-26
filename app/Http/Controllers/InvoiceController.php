@@ -100,17 +100,24 @@ class InvoiceController extends Controller {
         return $tasks->get();
     }
 
-    /**
-     * function preview
-     * preview invoice
-     */
-    public function preview( Request $request ) {
+    public function invoice( Request $request ) {
 
-        return view( 'invoice.preview' )->with( [
-            'invoice_no' => 'INVO_' . rand( 234565, 23568533 ),
-            'user'       => Auth::user(),
-            'tasks'      => $this->getInvoiceData( $request ),
-        ] );
+        if ( !empty( $request->generate ) && $request->generate == 'yes' ) {
+            $this->generate( $request );
+
+            return redirect()->route( 'invoice.index' )->with( 'success', 'Invoice Created' );
+        }
+
+        if ( !empty( $request->preview ) && $request->preview == 'yes' ) {
+
+            $tasks = Task::whereIn( 'id', $request->invoice_ids )->get();
+            return view( 'invoice.preview' )->with( [
+                'invoice_no' => 'INVO_' . rand( 234565, 23568533 ),
+                'user'       => Auth::user(),
+                'tasks'      => $tasks,
+            ] );
+
+        }
     }
 
     /**
@@ -144,7 +151,6 @@ class InvoiceController extends Controller {
             'download_url' => $invo_no . '.pdf',
         ] );
 
-        return redirect()->route( 'invoice.index' )->with( 'success', 'Invoice Created' );
     }
 
     // send email

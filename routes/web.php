@@ -28,8 +28,9 @@ Route::prefix( '/' )->middleware( ['auth'] )->group( function () {
         Route::get( '/create', [InvoiceController::class, 'create'] )->name( 'invoice.create' );
         Route::put( '/{invoice}/update', [InvoiceController::class, 'update'] )->name( 'invoice.update' );
         Route::delete( '/{invoice}/destroy', [InvoiceController::class, 'destroy'] )->name( 'invoice.destroy' );
-        Route::get( '/preview', [InvoiceController::class, 'preview'] )->name( 'preview.invoice' );
-        Route::get( '/generate', [InvoiceController::class, 'generate'] )->name( 'invoice.generate' );
+        Route::get( 'preview', [InvoiceController::class, 'preview'] )->name( 'preview.invoice' );
+        Route::get( 'generate', [InvoiceController::class, 'generate'] )->name( 'invoice.generate' );
+        Route::get( 'invoice', [InvoiceController::class, 'invoice'] )->name( 'invoice' );
         Route::get( '/email/send/{invoice:invoice_id}', [InvoiceController::class, 'sendEmail'] )->name( 'invoice.sendEmail' );
     } );
 
