@@ -121,12 +121,15 @@ class InvoiceController extends Controller {
     public function generate( Request $request ) {
 
         $invo_no = 'INVO_' . rand( 234565, 23568533 );
+        $tasks = Task::whereIn( 'id', $request->invoice_ids )->get();
+
         $data = [
             'invoice_no' => $invo_no,
             'user'       => Auth::user(),
-            'tasks'      => $this->getInvoiceData( $request ),
+            'tasks'      => $tasks,
         ];
 
+        // pdf generate
         $pdf = PDF::loadView( 'invoice.pdf', $data );
 
         // store pdf in storage
@@ -135,7 +138,7 @@ class InvoiceController extends Controller {
         // Insert Inovice Data
         Invoice::create( [
             'invoice_id'   => $invo_no,
-            'client_id'    => $request->client_id,
+            'client_id'    => $tasks->first()->client->id,
             'user_id'      => Auth::user()->id,
             'status'       => 'unpaid',
             'download_url' => $invo_no . '.pdf',
