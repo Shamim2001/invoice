@@ -15,9 +15,6 @@ Route::prefix( '/' )->middleware( ['auth'] )->group( function () {
     // client resource route
     Route::resource( 'client', ClientController::class );
 
-    // search client route
-    Route::get( 'client/{client:username}', [ClientController::class, 'searchTaskByClient'] )->name( 'task.search' );
-
     // task route
     Route::resource( 'task', TaskController::class );
     Route::put( 'task/{task}/complete', [TaskController::class, 'markAsComplete'] )->name( 'markAsComplete' );

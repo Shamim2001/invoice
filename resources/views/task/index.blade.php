@@ -108,13 +108,26 @@
                                     <a href="{{ route('task.show', $task->slug) }}">{{$task->name}}</a>
                                 </td>
                                 <td class="border py-2 text-center text-sm">{{$task->price}}</td>
-                                <td class="border py-2 text-center capitalize text-sm">{{$task->status}}</td>
+                                <td class="border py-2 text-center capitalize text-sm">{{$task->status}}
+                                    @if ($task->status == 'pending' )
+
+                                        <form action="{{ route('markAsComplete', $task) }}" method="POST" onsubmit="return confirm('Are You sure?');">
+                                            @csrf
+                                            @method('put')
+
+                                             <button type="submit" class="bg-teal-600 text-white text-sm px-3 py-1 rounded hover:bg-transparent hover:text-black hover:border duration-300 w-full" >DONE</button>
+                                        </form>
+                                        @endif
+
+                                </td>
                                 <td class="border py-2 text-left px-3 text-sm">
-                                    <a class="text-indigo-600 font-bold" href="{{ route('task.search',$task->client ) }}">{{ $task->client->name }}</a>
+                                    <a class="text-indigo-600 font-bold" href="{{ route('task.index') }}?client_id={{ $task->client->id }}">{{ $task->client->name }}</a>
                                 </td>
 
                                 <td class="border py-2 text-center">
+
                                     <div class="flex justify-center">
+
                                         <a href="{{ route('task.edit', $task->id) }}" class="bg-emerald-800 text-white text-sm px-3 py-1 rounded mr-2 hover:bg-transparent hover:text-black duration-300">Edit</a>
 
                                         <form action="{{ route('task.destroy', $task->id) }}" method="POST" onsubmit="return confirm('Do you Really want to Delete?');">
