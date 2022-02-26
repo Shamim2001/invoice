@@ -16,10 +16,27 @@ class InvoiceController extends Controller {
     /**
      * Invoice index
      */
-    public function index() {
+    public function index( Request $request ) {
+
+        $invoices = invoice::with( 'client' )->latest();
+
+        if ( !empty( $request->client_id ) ) {
+            $invoices = $invoices->where( 'client_id', $request->client_id );
+        }
+
+        if ( !empty( $request->status ) ) {
+            $invoices = $invoices->where( 'status', $request->status );
+        }
+
+        if ( !empty( $request->emailsent ) ) {
+            $invoices = $invoices->where( 'email_sent', $request->emailsent );
+        }
+
+        $invoices = $invoices->paginate( 10 );
 
         return view( 'invoice.index' )->with( [
-            'invoices' => invoice::with( 'client' )->latest()->paginate( 10 ),
+            'clients'  => Client::where( 'user_id', Auth::user()->id )->get(),
+            'invoices' => $invoices,
         ] );
     }
 
