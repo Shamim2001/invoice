@@ -1153,6 +1153,15 @@ select {
 .w-7 {
   width: 1.75rem;
 }
+.w-28 {
+  width: 7rem;
+}
+.w-24 {
+  width: 6rem;
+}
+.w-52 {
+  width: 13rem;
+}
 .min-w-max {
   min-width: -webkit-max-content;
   min-width: -moz-max-content;
@@ -1534,6 +1543,10 @@ select {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
 }
+.py-0 {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
 .pl-3 {
   padding-left: 0.75rem;
 }
@@ -1845,6 +1858,13 @@ select {
 .hover\:text-purple-600:hover {
   --tw-text-opacity: 1;
   color: rgb(147 51 234 / var(--tw-text-opacity));
+}
+.hover\:text-purple-500:hover {
+  --tw-text-opacity: 1;
+  color: rgb(168 85 247 / var(--tw-text-opacity));
+}
+.hover\:duration-300:hover {
+  transition-duration: 300ms;
 }
 .focus\:z-10:focus {
   z-index: 10;

@@ -79,12 +79,11 @@
                     <table class="w-full border-collapse">
                         <thead>
                             <tr>
-                                <th class="border">#</th>
+                                <th class="border w-40">#</th>
                                 <th class="border">Client</th>
-                                <th class="border">Status</th>
-                                <th class="border">Email Sent</th>
-                                <th class="border">Preview</th>
-                                <th class="border">Action</th>
+                                <th class="border w-24">Status</th>
+                                <th class="border w-28">Email Sent</th>
+                                <th class="border w-52">Action</th>
                             </tr>
                         </thead>
 
@@ -92,35 +91,49 @@
 
                             @forelse ($invoices as $invoice)
                             <tr>
-                                <td class="border py-2 text-center px-2">{{ $invoice->invoice_id }}</td>
-                                <td class="border py-2 text-left px-2">{{  $invoice->client->name }}</td>
-                                <td class="border py-2 text-center capitalize">{{  $invoice->status }}</td>
-                                <td class="border py-2 text-center capitalize">{{ $invoice->email_sent }}</td>
-                                <td class="border py-2 text-center capitalize">
-                                    <a target="_blank" href="{{ asset('storage/invoices/'. $invoice->download_url )  }}" class="bg-purple-600 text-white text-sm px-3 py-1 rounded mr-2 hover:bg-transparent hover:text-black transition-all duration-300">View</a>
+                                <td class="border py-2 text-center px-2 w-40">
+                                    <a targer="_blank" class="hover:text-purple-500" href="{{ asset('storage/invoices/'. $invoice->download_url )  }}">
+                                    {{ $invoice->invoice_id }}</a>
                                 </td>
 
-                                <td class="border py-2 text-center">
-                                    <div class="flex justify-center space-x-4">
+                                <td  class="border py-2 text-left px-2 ">
+                                    <a targer="_blank" class="hover:text-purple-500" href="{{ route('invoice.index') }}?client_id={{ $invoice->client->id }}">{{ $invoice->client->name }}</a>
+                                </td>
 
-                                        <a href="{{ route('invoice.sendEmail', $invoice) }}" class="bg-blue-800 text-white text-sm px-3 py-1 rounded hover:bg-transparent hover:text-black transition-all duration-300">Send Email</a>
 
-                                        @if ($invoice->status == 'unpaid')
+                                <td class="border py-2 text-center capitalize w-24">
+
+                                    {{ $invoice->status }}
+
+                                    @if ($invoice->status == 'unpaid')
 
                                         <form action="{{ route('invoice.update', $invoice->id) }}" method="POST" onsubmit="return confirm('Did you get paid?');">
                                             @csrf
                                             @method('PUT')
 
-                                            <button type="submit" class="bg-purple-800 text-white text-sm px-3 py-1 rounded hover:bg-transparent hover:text-black transition-all duration-300 ">Paid</button>
+                                            <button type="submit" class="bg-purple-600 text-white border-2 w-full  text-sm px-3 py-0 rounded hover:bg-transparent hover:text-black  transition-all hover:duration-300 ">Paid</button>
 
                                         </form>
                                          @endif
+
+                                </td>
+                                <td class="border py-2 text-center capitalize flex flex-col w-28">
+
+                                    {{ $invoice->email_sent }}
+
+                                    <a href="{{ route('invoice.sendEmail', $invoice) }}" class="bg-blue-800 border-2 w-full text-white text-sm px-3 py-0 rounded hover:bg-transparent hover:text-black  transition-all hover:duration-300 mr-2">Send Email</a>
+                                </td>
+
+                                <td class="border py-2 text-center w-52">
+                                    <div class="flex justify-center ">
+
+                                        <a target="_blank" href="{{ asset('storage/invoices/'. $invoice->download_url )  }}" class="bg-purple-600 border-2 text-white text-sm px-3 py-1 rounded mr-2 hover:bg-transparent hover:text-black  transition-all duration-300">Preview</a>
 
                                         <form action="{{ route('invoice.destroy', $invoice->id) }}" method="POST" onsubmit="return confirm('Do you Really want to Delete?');">
                                             @csrf
                                             @method('DELETE')
 
-                                            <button type="submit" class="bg-red-800 text-white text-sm px-3 py-1 rounded hover:bg-transparent hover:text-black transition-all duration-300">Delete</button>
+                                            <button type="submit" class="bg-red-800 text-white border-2 text-sm px-3 py-1 rounded hover:bg-transparent hover:text-black transition-all mr-2">Delete</button>
 
                                         </form>
 
