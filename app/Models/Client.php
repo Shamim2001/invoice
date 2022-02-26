@@ -16,4 +16,9 @@ class Client extends Model {
         return $this->hasMany( Task::class, 'client_id', 'id' );
     }
 
+    public function invoices() {
+
+        return $this->hasMany( Invoice::class, 'client_id', 'id' );
+    }
+
 }

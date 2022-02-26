@@ -45,8 +45,7 @@
                                 </td>
                                 <td class="border py-2 text-left px-3">
                                     <div class="flex flex-col ">
-                                        <a class="hover:text-purple-600 font-semibold" href="">{{
-                                            $client->name }}</a>
+                                        <a class="hover:text-purple-600 font-semibold" href="{{ route('client.show', $client) }}">{{ $client->name }}</a>
                                         <span class="text-xs">{{ $client->username }}</span>
                                         <span class="text-xs">{{ $client->email }}</span>
                                     </div>
