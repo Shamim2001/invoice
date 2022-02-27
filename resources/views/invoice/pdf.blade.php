@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <style>
         html {
@@ -7,6 +8,7 @@
             line-height: 1.15;
             margin: 0;
         }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
             font-weight: 400;
@@ -18,35 +20,42 @@
             margin: 36pt;
             position: relative
         }
+
         .mainlayout {
             width: 100%;
             max-width: 991px;
             margin: auto;
             position: relative;
         }
+
         img {
             max-width: 150px;
         }
+
         .header {
             display: table;
             width: 100%;
         }
+
         .header_content {
             display: table-cell;
             vertical-align: middle;
         }
+
         .header_logo {
             display: table-cell;
             vertical-align: middle;
             text-align: right;
             width: 80px;
         }
+
         .header_title {
             font-weight: 600;
             font-size: 30px;
             margin: 0;
             margin-bottom: 10px;
         }
+
         .invoice_from_to {
             display: table;
             width: 100%;
@@ -54,64 +63,79 @@
             border-bottom: 1px solid #d0cece;
             padding-bottom: 10px;
         }
+
         .invoice_from_to h2 {
             font-size: 16px;
             margin-bottom: 7px;
             font-weight: bold;
         }
+
         h2,
         p {
             margin: 0
         }
+
         .invoice_to,
         .invoice_from {
             display: table-cell;
             vertical-align: middle;
         }
+
         .invoice_from {
             text-align: right;
         }
+
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
             width: 100%;
         }
+
         td,
         th {
             border: 1px solid #dddddd;
             text-align: left;
             padding: 8px;
         }
+
         .invoice_table th {
             background: #b85eea;
             color: #fff;
         }
+
         tr:nth-child(even) {
             background-color: #f7f4f4;
         }
+
         .invoice_footer {
             width: auto;
             text-align: right;
             margin: 0;
             padding: 15px 0;
         }
+
         .single_footer>span {
             width: 80px;
             display: inline-block;
         }
+
         .single_footer>strong {
             width: 60px;
             display: inline-block;
         }
+
         .single_footer {
             padding: 3px 0;
         }
+
         .amount_total {
             float: right;
         }
+
         .single_footer strong span {
             margin-right: 10px;
         }
+
         .amount_total h2 {
             font-size: 13px;
             display: block;
@@ -121,12 +145,14 @@
             width: auto;
             text-align: center;
         }
+
         .copyright {
             position: absolute;
             left: 0px;
             bottom: 0px;
             font-size: 8px
         }
+
     </style>
 </head>
 
@@ -142,18 +168,19 @@
                 </div>
                 <div>
                     <span class="w-1/3">INVOICE DATE</span>
-                    <strong class="w-3/5"><span class="mx-5">:</span>{{ Carbon\Carbon::now()->format('d M, Y') }}</strong>
+                    <strong class="w-3/5"><span
+                            class="mx-5">:</span>{{ Carbon\Carbon::now()->format('d M, Y') }}</strong>
                 </div>
                 <div>
                     <span class="w-1/3">INVOICE DUE</span>
-                    <strong class="w-3/5"><span class="mx-5">:</span> {{ Carbon\Carbon::now()->addDays(5)->format('d M, Y') }}</strong>
+                    <strong class="w-3/5"><span class="mx-5">:</span>
+                        {{ Carbon\Carbon::now()->addDays(5)->format('d M, Y') }}</strong>
                 </div>
             </div>
             <div class="header_logo">
 
                 @if (request('preview') == 'yes')
-
-                    <img src="{{ asset('img/logo.png') }}" width="100"Fheader class="w-40" alt="">
+                    <img src="{{ asset('img/logo.png') }}" width="100" Fheader class="w-40" alt="">
                 @else
                     <img src="img/logo.png" width="100" class="w-40" alt="">
                 @endif
@@ -182,17 +209,15 @@
                 <thead>
                     <tr>
                         <th>Description</th>
-                        <th style="text-align: center">Discount ($)</th>
                         <th style="text-align: right">Amount ($)</th>
                     </tr>
                 </thead>
                 <tbody>
 
 
-                    @foreach ( $tasks as $task )
+                    @foreach ($tasks as $task)
                         <tr>
                             <td>{{ $task->name }}</td>
-                            <td style="text-align:center">0</td>
                             <td style="text-align:right">{{ $task->price }}</td>
                         </tr>
                     @endforeach
@@ -207,13 +232,28 @@
                     <span>Subtotal: </span>
                     <strong> ${{ number_format($tasks->sum('price'), 0) }}</strong>
                 </div>
+
+
+                @php
+                    $mainiscount = $discount;
+                    if ($discount_type == '%') {
+                        $discount = ($discount * $tasks->sum('price')) / 100;
+                    } else {
+                        $discount = $discount;
+                    }
+                @endphp
+
                 <div class="single_footer">
                     <span>Discount: </span>
-                    <strong>0</strong>
+                    <strong><span
+                            style="font-size: 8px">{{ $discount_type == '%' ? '( ' . $mainiscount . '% )' : '' }}
+                            ${{ $discount }}</span></strong>
                 </div>
+
+
                 <div class="single_footer">
                     <span>Total: </span>
-                    <strong>${{ number_format($tasks->sum('price'), 0) }}</strong>
+                    <strong>${{ number_format($tasks->sum('price') - $discount, 0) }}</strong>
                 </div>
             </div>
             <div class="amount_total">

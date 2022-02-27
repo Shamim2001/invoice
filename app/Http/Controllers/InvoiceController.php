@@ -127,11 +127,22 @@ class InvoiceController extends Controller {
 
         if ( !empty( $request->preview ) && $request->preview == 'yes' ) {
 
+            if ( !empty( $request->discount ) && !empty( $request->discount_type ) ) {
+                $discount = $request->discount;
+                $discount_type = $request->discount_type;
+            } else {
+                $discount = 0;
+                $discount_type = '';
+            }
+
             $tasks = Task::whereIn( 'id', $request->invoice_ids )->get();
             return view( 'invoice.preview' )->with( [
-                'invoice_no' => 'INVO_' . rand( 234565, 23568533 ),
-                'user'       => Auth::user(),
-                'tasks'      => $tasks,
+
+                'invoice_no'    => 'INVO_' . rand( 234565, 23568533 ),
+                'user'          => Auth::user(),
+                'tasks'         => $tasks,
+                'discount'      => $discount,
+                'discount_type' => $discount_type,
             ] );
 
         }
@@ -147,10 +158,20 @@ class InvoiceController extends Controller {
         $invo_no = 'INVO_' . rand( 234565, 23568533 );
         $tasks = Task::whereIn( 'id', $request->invoice_ids )->get();
 
+        if ( !empty( $request->discount ) && !empty( $request->discount_type ) ) {
+            $discount = $request->discount;
+            $discount_type = $request->discount_type;
+        } else {
+            $discount = 0;
+            $discount_type = '';
+        }
+
         $data = [
-            'invoice_no' => $invo_no,
-            'user'       => Auth::user(),
-            'tasks'      => $tasks,
+            'invoice_no'    => $invo_no,
+            'user'          => Auth::user(),
+            'tasks'         => $tasks,
+            'discount'      => $discount,
+            'discount_type' => $discount_type,
         ];
 
         // pdf generate
