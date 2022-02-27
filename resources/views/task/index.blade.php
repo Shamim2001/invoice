@@ -87,7 +87,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="text-right">
-                        <button id="task_filter_btn" type="button" class="bg-blue-500 text-white px-3 py-1 mb-6 rounded-sm">{{ request('client_id') || request('status') || request('formDate') || request('endDate') || request('price') ? 'Close Filter' : 'Filter' }}</button>
+                        <button id="task_filter_btn" type="button" class="bg-blue-500 border-2 text-white px-3 py-1 mb-6 rounded-sm hover:bg-transparent hover:text-black">{{ request('client_id') || request('status') || request('formDate') || request('endDate') || request('price') ? 'Close Filter' : 'Filter' }}</button>
                     </div>
                     <table class="w-full border-collapse">
                         <thead>
@@ -104,7 +104,7 @@
 
                             @foreach ($tasks as $task)
                             <tr>
-                                <td class="border py-2 text-left px-2 font-bold   text-sm hover:text-purple-700 ">
+                                <td class="border py-2 text-left px-2 font-bold   text-sm hover:text-purple-700  ">
                                     <a href="{{ route('task.show', $task->slug) }}">{{$task->name}}</a>
                                 </td>
                                 <td class="border py-2 text-center text-sm">{{$task->price}}</td>
@@ -115,7 +115,7 @@
                                             @csrf
                                             @method('put')
 
-                                             <button type="submit" class="bg-teal-600 text-white text-sm px-3 py-1 rounded hover:bg-transparent hover:text-black hover:border duration-300 w-full" >DONE</button>
+                                             <button type="submit" class="bg-teal-600 text-white text-sm px-3 py-0 border-2 rounded hover:bg-transparent hover:text-black duration-300 w-full" >DONE</button>
                                         </form>
                                         @endif
 
@@ -128,13 +128,13 @@
 
                                     <div class="flex justify-center">
 
-                                        <a href="{{ route('task.edit', $task->id) }}" class="bg-emerald-800 text-white text-sm px-3 py-1 rounded mr-2 hover:bg-transparent hover:text-black duration-300">Edit</a>
+                                        <a href="{{ route('task.edit', $task->id) }}" class="bg-emerald-800 text-white border-2 text-sm px-3 py-1 rounded mr-2 hover:bg-transparent hover:text-black duration-300">Edit</a>
 
                                         <form action="{{ route('task.destroy', $task->id) }}" method="POST" onsubmit="return confirm('Do you Really want to Delete?');">
                                             @csrf
                                             @method('DELETE')
 
-                                            <button type="submit" class="bg-red-800 text-white text-sm px-3 py-1 rounded ">Delete</button>
+                                            <button type="submit" class="bg-red-800 border-2 text-white text-sm px-3 py-1 rounded hover:bg-transparent hover:text-black ">Delete</button>
 
                                         </form>
 
