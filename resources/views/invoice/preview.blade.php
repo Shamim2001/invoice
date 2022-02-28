@@ -6,6 +6,5 @@
     </x-slot>
 
     <div class="py-12 bg-white">
-        @include('invoice.pdf')
     </div>
 </x-app-layout>

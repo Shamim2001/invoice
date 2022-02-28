@@ -31,11 +31,18 @@ class settingsController extends Controller {
 
         if ( !empty( $request->file( 'thumbnail' ) ) ) {
 
-            Storage::delete( 'public/users/' . $thumb ); // delete the old image
+            Storage::delete( 'public/uploads/' . $thumb ); // delete the old image
 
             $thumb = time() . '-' . $request->file( 'thumbnail' )->getClientOriginalName();
 
-            $request->file( 'thumbnail' )->storeAs( 'public/users', $thumb );
+            $request->file( 'thumbnail' )->storeAs( 'public/uploads', $thumb );
+        }
+
+        if ( !empty( $request->file( 'invoice_logo' ) ) ) {
+
+            $invoice = 'invoice.png';
+
+            $request->file( 'invoice_logo' )->storeAs( 'public/uploads', $invoice );
         }
 
         $user->update( [

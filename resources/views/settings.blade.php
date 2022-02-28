@@ -94,13 +94,9 @@
                                         <input type="file" class="flex-1" name="invoice_logo" id="logo">
                                     </div>
                                     <div class="border p-2">
-                                        @if (file_exists('storage/uploads/invoice.png'))
-                                            <img src="{{ asset('storage/uploads/invoice.png') }}"
-                                                class="w-20" alt="">
-                                        @else
-                                            <img src="{{ asset('img/invo-mate.png') }}" class="w-20"
-                                                alt="">
-                                        @endif
+
+                                        <img src="{{ asset('storage/uploads/invoice.png') }}" class="w-20"
+                                            alt="">
                                     </div>
                                 </div>
                                 <div class="">

@@ -180,9 +180,10 @@
             <div class="header_logo">
 
                 @if (request('preview') == 'yes')
-                    <img src="{{ asset('img/logo.png') }}" width="100" Fheader class="w-40" alt="">
+                    <img src="{{ asset('storage/uploads/invoice.png') }}" width="100" Fheader class="w-40"
+                        alt="">
                 @else
-                    <img src="img/logo.png" width="100" class="w-40" alt="">
+                    <img src="storage/uploads/invoice.png" width="100" class="w-40" alt="">
                 @endif
             </div>
         </div>
