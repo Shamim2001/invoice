@@ -2,10 +2,15 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\settingsController;
 use App\Http\Controllers\TaskController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+Route::get( '/', function () {
+    return view( 'welcome' );
+} );
 
 // backend
 Route::prefix( '/' )->middleware( ['auth'] )->group( function () {
@@ -38,6 +43,10 @@ Route::prefix( '/' )->middleware( ['auth'] )->group( function () {
         Route::get( 'invoice', [InvoiceController::class, 'invoice'] )->name( 'invoice' );
         Route::get( '/email/send/{invoice:invoice_id}', [InvoiceController::class, 'sendEmail'] )->name( 'invoice.sendEmail' );
     } );
+
+    // settings
+    Route::get( 'settings', [settingsController::class, 'index'] )->name( 'settings.index' );
+    Route::put( 'settings/update', [settingsController::class, 'update'] )->name( 'settings.update' );
 
 } );
 
