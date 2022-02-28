@@ -21,6 +21,7 @@
                                 <th class="border py-2">Name</th>
                                 <th class="border py-2">Country</th>
                                 <th class="border py-2">Total Task</th>
+                                <th class="border py-2">Status</th>
                                 <th class="border py-2 min-w-max">Action</th>
                             </tr>
                         </thead>
@@ -59,6 +60,7 @@
                                                     class="absolute group-hover:bg-orange-500 group-hover:text-white group-hover:border-white transition-all from-neutral-300 bg-white text-black border border-black -right-4 -top-4 rounded-full w-7 h-7 leading-7 text-center text-xs">{{ count($client->tasks) }}</span>View</a>
                                         </div>
                                     </td>
+                                    <td class="border py-2 text-center">{{ $client->status }}</td>
                                     <td class="border py-2 text-center min-w-max">
                                         <div class="flex justify-center">
                                             <a href="{{ route('client.edit', $client) }}"

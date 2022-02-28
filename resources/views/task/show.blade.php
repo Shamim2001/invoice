@@ -9,8 +9,6 @@
         </div>
     </x-slot>
 
-    @include('layouts.message')
-
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -28,15 +26,16 @@
                             </div>
 
                             @if ($task->status == 'pending')
+                                <div class="">
+                                    <form action="{{ route('markAsComplete', $task) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
 
-                            <div class="">
-                                <form action="{{ route('markAsComplete',$task) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-
-                                    <button type="submit" class="bg-blue-400 text-white px-3 py-1 capitalize inline-block rounded-md mt-3">Mark as Complete</button>
-                                </form>
-                            </div>
+                                        <button type="submit"
+                                            class="bg-blue-400 text-white px-3 py-1 capitalize inline-block rounded-md mt-3">Mark
+                                            as Complete</button>
+                                    </form>
+                                </div>
                             @endif
 
 
@@ -46,7 +45,7 @@
                         <h2 class="font-bold my-3">Task Details</h2>
 
                         <div class="border my-4 p-5 prose max-w-none">
-                            {!! $task->description!!}
+                            {!! $task->description !!}
                         </div>
                     </div>
 

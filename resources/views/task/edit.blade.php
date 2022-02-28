@@ -9,7 +9,6 @@
         </div>
     </x-slot>
 
-    @include('layouts.message')
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -23,10 +22,11 @@
                         <div class="mt-6 flex">
                             <div class="flex-1 ">
                                 <label for="name" class="formLabel">Name</label>
-                                <input type="text" name="name" id="name" class="formInput" value="{{ $task->name }}">
+                                <input type="text" name="name" id="name" class="formInput"
+                                    value="{{ $task->name }}">
 
                                 @error('name')
-                                    <p class="text-red-700 text-sm">{{$message}}</p>
+                                    <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
 
                             </div>
@@ -37,10 +37,11 @@
 
                             <div class="flex-1 mr-4">
                                 <label for="price" class="formLabel">Price</label>
-                                 <input type="number" name="price" id="price" class="formInput" value="{{ $task->price }}">
+                                <input type="number" name="price" id="price" class="formInput"
+                                    value="{{ $task->price }}">
 
                                 @error('price')
-                                    <p class="text-red-700 text-sm">{{$message}}</p>
+                                    <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
 
 
@@ -53,13 +54,15 @@
                                     <option value="none">Select Client</option>
 
                                     @foreach ($clients as $client)
-                                         <option value="{{ $client->id }}" {{  $client->id == $task->client_id ? 'selected' : '' }}>{{ $client->name }}</option>
+                                        <option value="{{ $client->id }}"
+                                            {{ $client->id == $task->client_id ? 'selected' : '' }}>
+                                            {{ $client->name }}</option>
                                     @endforeach
 
                                 </select>
 
                                 @error('client_id')
-                                    <p class="text-red-700 text-sm">{{$message}}</p>
+                                    <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
 
                             </div>
@@ -69,12 +72,12 @@
                         <div class="mt-6 flex">
                             <div class="flex-1">
                                 <label for="description" class="formLabel">Description</label>
-                                <textarea name="description" id="description"  rows="10" class="formInput">
+                                <textarea name="description" id="description" rows="10" class="formInput">
                                     {{ $task->description }}
                                 </textarea>
 
                                 @error('description')
-                                    <p class="text-red-700 text-sm">{{$message}}</p>
+                                    <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
 
                             </div>
@@ -82,7 +85,8 @@
 
 
                         <div class="mt-6">
-                            <button type="submit" class="bg-emerald-800 px-4 py-2 text-white rounded-md text-base uppercase">Update</button>
+                            <button type="submit"
+                                class="bg-emerald-800 px-4 py-2 text-white rounded-md text-base uppercase">Update</button>
                         </div>
                     </form>
 
