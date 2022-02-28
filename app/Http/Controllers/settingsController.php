@@ -20,10 +20,12 @@ class settingsController extends Controller {
         $request->validate( [
             'name'    => ['required', 'max:255', 'string'],
             'email'   => ['required', 'max:255', 'string'],
-            'company' => ['max:255', 'string'],
-            'phone'   => ['max:255', 'string'],
-            'country' => ['max:255', 'string'],
+            'company' => ['max:255', 'string', 'nullable'],
+            'phone'   => ['max:255', 'string', 'nullable'],
+            'country' => ['max:255', 'string', 'nullable'],
         ] );
+
+        // dd( $request->all() );
 
         $user = User::find( Auth::id() );
 
@@ -36,6 +38,7 @@ class settingsController extends Controller {
             $thumb = time() . '-' . $request->file( 'thumbnail' )->getClientOriginalName();
 
             $request->file( 'thumbnail' )->storeAs( 'public/uploads', $thumb );
+
         }
 
         if ( !empty( $request->file( 'invoice_logo' ) ) ) {

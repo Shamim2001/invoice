@@ -33,7 +33,6 @@
                 <div class="bg-white p-8 mt-6">
                     <form action="{{ route('settings.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        @method('PUT')
                         <h2 class="font-bold">Personal Information</h2>
                         <div class="flex justify-between">
                             <div class="flex-1">

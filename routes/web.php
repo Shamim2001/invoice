@@ -46,7 +46,7 @@ Route::prefix( '/' )->middleware( ['auth'] )->group( function () {
 
     // settings
     Route::get( 'settings', [settingsController::class, 'index'] )->name( 'settings.index' );
-    Route::put( 'settings/update', [settingsController::class, 'update'] )->name( 'settings.update' );
+    Route::post( 'settings/update', [settingsController::class, 'update'] )->name( 'settings.update' );
 
 } );
 
