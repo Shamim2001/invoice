@@ -35,7 +35,9 @@ class settingsController extends Controller {
 
             Storage::delete( 'public/uploads/' . $thumb ); // delete the old image
 
-            $thumb = time() . '-' . $request->file( 'thumbnail' )->getClientOriginalName();
+            $filename = strtolower( str_replace( ' ', '-', $request->file( 'thumbnail' )->getClientOriginalName() ) );
+
+            $thumb = time() . '-' . $filename;
 
             $request->file( 'thumbnail' )->storeAs( 'public/uploads', $thumb );
 

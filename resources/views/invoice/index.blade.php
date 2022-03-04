@@ -44,7 +44,8 @@
                             <select name="status" id="status">
                                 <option value="">Select Status</option>
                                 <option value="paid"
-                                    {{ old('status') == 'paid' || request('status') == 'paid' ? 'selected' : '' }}>Paid
+                                    {{ old('status') == 'paid' || request('status') == 'paid' ? 'selected' : '' }}>
+                                    Paid
                                 </option>
                                 <option value="unpaid"
                                     {{ old('status') == 'unpaid' || request('status') == 'unpaid' ? 'selected' : '' }}>
@@ -64,7 +65,8 @@
                                     {{ old('emailsent') == 'yes' || request('emailsent') == 'yes' ? 'selected' : '' }}>
                                     Yes</option>
                                 <option value="no"
-                                    {{ old('emailsent') == 'no' || request('emailsent') == 'no' ? 'selected' : '' }}>No
+                                    {{ old('emailsent') == 'no' || request('emailsent') == 'no' ? 'selected' : '' }}>
+                                    No
                                 </option>
                             </select>
                         </div>
@@ -116,17 +118,16 @@
 
                                         {{ $invoice->status }}
 
-                                        @if ($invoice->status == 'unpaid')
-                                            <form action="{{ route('invoice.update', $invoice->id) }}" method="POST"
-                                                onsubmit="return confirm('Did you get paid?');">
-                                                @csrf
-                                                @method('PUT')
 
-                                                <button type="submit"
-                                                    class="bg-purple-600 text-white border-2 w-full  text-sm px-3 py-0 rounded hover:bg-transparent hover:text-black  transition-all hover:duration-300 ">Paid</button>
+                                        <form action="{{ route('invoice.update', $invoice->id) }}" method="POST"
+                                            onsubmit="return confirm('Did you to continue?');">
+                                            @csrf
+                                            @method('PUT')
 
-                                            </form>
-                                        @endif
+                                            <button type="submit"
+                                                class="bg-purple-600 text-white border-2 w-full  text-sm px-3 py-0 rounded hover:bg-transparent hover:text-black  transition-all hover:duration-300 ">{{ $invoice->status == 'unpaid' ? 'Paid' : 'Unpaid' }}</button>
+
+                                        </form>
 
                                     </td>
                                     <td class="border py-2 text-center capitalize flex flex-col w-28">

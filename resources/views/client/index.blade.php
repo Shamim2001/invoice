@@ -37,7 +37,7 @@
                                 }
                             @endphp
 
-                            @foreach ($clients as $client)
+                            @forelse ($clients as $client)
                                 <tr>
                                     <td class="border py-2 w-32 text-center">
                                         <img src="{{ getImageUrl($client->thumbnail) }}" width="50" alt=""
@@ -74,12 +74,15 @@
                                                     class="border-2 bg-red-500 text-white hover:bg-transparent hover:text-black transition-all duration-300 px-3 py-1 mr-2">Delete</button>
                                             </form>
                                         </div>
-
-
-
                                     </td>
                                 </tr>
-                            @endforeach
+
+                            @empty
+
+                                <tr>
+                                    <td class="border py-2 text-center" colspan="6">No Client Found!</td>
+                                </tr>
+                            @endforelse
 
 
                         </tbody>

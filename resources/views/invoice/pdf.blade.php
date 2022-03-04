@@ -180,10 +180,20 @@
             <div class="header_logo">
 
                 @if (request('preview') == 'yes')
-                    <img src="{{ asset('storage/uploads/invoice.png') }}" width="100" Fheader class="w-40"
-                        alt="">
+                    @if (file_exists('storage/uploads/invoice.png'))
+                        <img src="{{ asset('storage/uploads/invoice.png') }}" width="100" class="w-40"
+                            style="margin-left:auto">
+                    @else
+                        <img src="{{ asset('img/invo-mate.png') }}" width="100" class="w-40"
+                            style="margin-left:auto">
+                    @endif
                 @else
-                    <img src="storage/uploads/invoice.png" width="100" class="w-40" alt="">
+                    @if (file_exists('storage/uploads/invoice.png'))
+                        <img src="storage/uploads/invoice.png" width="100" class="w-40"
+                            style="margin-left:auto">
+                    @else
+                        <img src="img/invo-mate.png" width="100" class="w-40" style="margin-left:auto">
+                    @endif
                 @endif
             </div>
         </div>

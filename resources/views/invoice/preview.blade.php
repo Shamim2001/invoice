@@ -5,6 +5,9 @@
         </h2>
     </x-slot>
 
-    <div class="py-12 bg-white">
+    <div class="py-12 bg-white border-t">
+        <div class="container mx-auto">
+            @include('invoice.pdf')
+        </div>
     </div>
 </x-app-layout>

@@ -7,11 +7,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class ClientController extends Controller {
     /**
      * Display a listing of the resource.
      *
+     * @return view with clients filter by user
      * @return \Illuminate\Http\Response
      */
     public function index() {
@@ -23,6 +25,8 @@ class ClientController extends Controller {
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return view with countries
      *
      * @return \Illuminate\Http\Response
      */
@@ -38,7 +42,7 @@ class ClientController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store( Request $request ) {
-
+        // Data Validation
         $request->validate( [
             'name'      => ['required', 'max: 255', 'string'],
             'username'  => ['required', 'max: 255', 'string'],
@@ -49,24 +53,29 @@ class ClientController extends Controller {
             'thumbnail' => 'image',
         ] );
 
-        $thumb = null;
-        if ( !empty( $request->file( 'thumbnail' ) ) ) {
-            $thumb = time() . '-' . $request->file( 'thumbnail' )->getClientOriginalName();
-            $request->file( 'thumbnail' )->storeAs( 'public/uploads', $thumb );
+        try {
+            $thumb = null;
+            if ( !empty( $request->file( 'thumbnail' ) ) ) {
+                $thumb = time() . '-' . $request->file( 'thumbnail' )->getClientOriginalName();
+                $request->file( 'thumbnail' )->storeAs( 'public/uploads', $thumb );
+            }
+            // create new Client
+            Client::create( [
+                'name'      => $request->name,
+                'username'  => $request->username,
+                'email'     => $request->email,
+                'phone'     => $request->phone,
+                'country'   => $request->country,
+                'thumbnail' => $thumb,
+                'user_id'   => Auth::user()->id,
+                'status'    => $request->status,
+            ] );
+            // return Response
+            return redirect()->route( 'client.index' )->with( 'success', 'Client Added Succesfully!' );
+        } catch ( \Throwable$th ) {
+            // throw $th
+            return redirect()->route( 'client.index' )->with( 'error', $th->getMessage() );
         }
-
-        Client::create( [
-            'name'      => $request->name,
-            'username'  => $request->username,
-            'email'     => $request->email,
-            'phone'     => $request->phone,
-            'country'   => $request->country,
-            'thumbnail' => $thumb,
-            'user_id'   => Auth::user()->id,
-            'status'    => $request->status,
-        ] );
-
-        return redirect()->route( 'client.index' )->with( 'success', 'Client Added Succesfully!' );
     }
 
     /**
@@ -76,7 +85,11 @@ class ClientController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show( Client $client ) {
+
+        // Client with tasks and invoices
         $client = $client->load( 'tasks', 'invoices' );
+
+        // return view
         return view( 'client.profile' )->with( [
             'client'        => $client,
             'pending_tasks' => $client->tasks->where( 'status', 'pending' ),
@@ -106,7 +119,7 @@ class ClientController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update( Request $request, Client $client ) {
-
+        // Data Vilidation
         $request->validate( [
             'name'      => ['required', 'max: 255', 'string'],
             'username'  => ['required', 'max: 255', 'string'],
@@ -116,30 +129,37 @@ class ClientController extends Controller {
             'thumbnail' => 'image',
 
         ] );
-
+        // default thumbnail from database
         $thumb = $client->thumbnail;
 
-        if ( !empty( $request->file( 'thumbnail' ) ) ) {
+        try {
+            if ( !empty( $request->file( 'thumbnail' ) ) ) {
 
-            Storage::delete( 'public/uploads/' . $thumb ); // delete the old image
+                Storage::delete( 'public/uploads/' . $thumb ); // delete the old image
 
-            $thumb = time() . '-' . $request->file( 'thumbnail' )->getClientOriginalName();
+                $thumb = time() . '-' . $request->file( 'thumbnail' )->getClientOriginalName();
 
-            $request->file( 'thumbnail' )->storeAs( 'public/uploads', $thumb );
+                $request->file( 'thumbnail' )->storeAs( 'public/uploads', $thumb );
+            }
+
+            // Update client data
+            Client::find( $client->id )->update( [
+                'name'      => $request->name,
+                'username'  => $request->username,
+                'email'     => $request->email,
+                'phone'     => $request->phone,
+                'country'   => $request->country,
+                'thumbnail' => $thumb,
+                'user_id'   => Auth::user()->id,
+                'status'    => $request->status,
+            ] );
+
+            // return Response
+            return redirect()->route( 'client.index' )->with( 'success', 'Client Updated!' );
+        } catch ( \Throwable$th ) {
+            // throw $th
+            return redirect()->route( 'client.index' )->with( 'error', $th->getMessage() );
         }
-
-        Client::find( $client->id )->update( [
-            'name'      => $request->name,
-            'username'  => $request->username,
-            'email'     => $request->email,
-            'phone'     => $request->phone,
-            'country'   => $request->country,
-            'thumbnail' => $thumb,
-            'user_id'   => Auth::user()->id,
-            'status'    => $request->status,
-        ] );
-
-        return redirect()->route( 'client.index' )->with( 'success', 'Client Updated!' );
 
     }
 
@@ -151,20 +171,28 @@ class ClientController extends Controller {
      */
     public function destroy( Client $client ) {
 
+        // find all pending tasks of the client
         $pending_tasks = $client->tasks->where( 'status', 'pending' );
 
-        if ( count( $pending_tasks ) == 0 ) {
-            Storage::delete( 'public/uploads/' . $client->thumbnail );
-            $client->delete();
-        } else {
-            $client->update( [
-                'status' => 'inactive',
-            ] );
-        }
+        try {
+            // soft delete or delete depending on the condition
+            if ( count( $pending_tasks ) == 0 ) {
+                Storage::delete( 'public/uploads/' . $client->thumbnail );
+                $client->delete();
+            } else {
+                $client->update( [
+                    'status' => 'inactive',
+                ] );
+            }
 
-        return redirect()->route( 'client.index' )->with( 'success', 'Client has been soft Deleted!' );
+            // return respose
+            return redirect()->route( 'client.index' )->with( 'success', 'Client has been soft Deleted!' );
+        } catch ( Throwable $th ) {
+            return redirect()->route( 'client.index' )->with( 'error', $th->getMessage() );
+        }
     }
 
+    // country list
     public $countries_list = array(
 
         "Afghanistan",

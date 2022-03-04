@@ -19,7 +19,7 @@ class InvoiceController extends Controller {
      */
     public function index( Request $request ) {
 
-        $invoices = invoice::with( 'client' )->latest();
+        $invoices = invoice::with( 'client' )->where( 'user_id', Auth::id() )->latest();
 
         if ( !empty( $request->client_id ) ) {
             $invoices = $invoices->where( 'client_id', $request->client_id );
@@ -73,7 +73,7 @@ class InvoiceController extends Controller {
     public function update( Request $request, Invoice $invoice ) {
 
         $invoice->update( [
-            'status' => 'paid',
+            'status' => $invoice->status == 'unpaid' ? 'paid' : 'unpaid',
 
         ] );
 
@@ -196,19 +196,18 @@ class InvoiceController extends Controller {
     // send email
     public function sendEmail( Invoice $invoice ) {
 
-        // $pdf = Storage::get( 'public/invoices/' . $invoice->download_url );
-
+        $pdf = public_path( 'storage/invoices/' . $invoice->download_url );
         $data = [
             'user'       => Auth::user(),
             'invoice_id' => $invoice->invoice_id,
             'invoice'    => $invoice,
-            // 'pdf'        => $pdf,
+            'pdf'        => $pdf,
         ];
 
         // InvoiceEmailJob::dispatch( $data );
         // dispatch( new InvoiceEmailJob( $data ) );
 
-        Mail::send( new InvoiceMail( $data ) );
+        Mail::to( $invoice->client )->send( new InvoiceMail( $data ) );
 
         $invoice->update( [
             'email_sent' => 'yes',

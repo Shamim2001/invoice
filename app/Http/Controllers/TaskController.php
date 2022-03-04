@@ -16,7 +16,7 @@ class TaskController extends Controller {
      */
     public function index( Request $request ) {
 
-        $tasks = Task::where( 'user_id', Auth::user()->id )->with( 'client' )->orderBy( 'id', 'DESC' );
+        $tasks = Task::where( 'user_id', Auth::id() )->with( 'client' )->orderBy( 'id', 'DESC' );
 
         // client filter
         if ( !empty( $request->client_id ) ) {
@@ -44,7 +44,7 @@ class TaskController extends Controller {
         $tasks = $tasks->paginate( 10 )->withQueryString();
 
         return view( 'task.index' )->with( [
-            'clients' => Client::where( 'user_id', Auth::user()->id )->get(),
+            'clients' => Client::where( 'user_id', Auth::id() )->get(),
             'tasks'   => $tasks,
         ] );
     }
@@ -57,7 +57,7 @@ class TaskController extends Controller {
     public function create() {
 
         return view( 'task.create' )->with( [
-            'clients' => Client::all(),
+            'clients' => Client::where( 'user_id', Auth::id() )->get(),
         ] );
     }
 
@@ -77,7 +77,7 @@ class TaskController extends Controller {
             'price'       => $request->price,
             'description' => $request->description,
             'client_id'   => $request->client_id,
-            'user_id'     => Auth::user()->id,
+            'user_id'     => Auth::id(),
         ] );
 
         return redirect()->route( 'task.index' )->with( 'success', 'Task Added Successfull!' );
@@ -106,17 +106,16 @@ class TaskController extends Controller {
 
         return view( 'task.edit' )->with( [
             'task'    => $task,
-            'clients' => Client::where( 'user_id', Auth::user()->id )->get(),
+            'clients' => Client::where( 'user_id', Auth::id() )->get(),
         ] );
     }
 
     public function taskValidation( Request $request ) {
 
         return $request->validate( [
-            'name'        => ['required', 'max:255', 'string'],
-            'price'       => ['required', 'integer'],
-            'client_id'   => ['required', 'max:255', 'not_in:none'],
-            'description' => ['required'],
+            'name'      => ['required', 'max:255', 'string'],
+            'price'     => ['required', 'integer'],
+            'client_id' => ['required', 'max:255', 'not_in:none'],
         ] );
     }
 
@@ -137,7 +136,7 @@ class TaskController extends Controller {
             'price'       => $request->price,
             'description' => $request->description,
             'client_id'   => $request->client_id,
-            'user_id'     => Auth::user()->id,
+            'user_id'     => Auth::id(),
         ] );
 
         return redirect()->route( 'task.index' )->with( 'success', 'Task Update Successfull!' );

@@ -95,7 +95,7 @@
             </div>
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+                <div class="p-6 bg-white  border-gray-200">
                     <div class="text-right">
                         <button id="task_filter_btn" type="button"
                             class="bg-blue-500 border-2 text-white px-3 py-1 mb-6 rounded-sm hover:bg-transparent hover:text-black">{{ request('client_id') || request('status') || request('formDate') || request('endDate') || request('price')? 'Close Filter': 'Filter' }}</button>
@@ -113,7 +113,7 @@
 
                         <tbody>
 
-                            @foreach ($tasks as $task)
+                            @forelse ($tasks as $task)
                                 <tr>
                                     <td class="border py-2 text-left px-2 font-bold   text-sm hover:text-purple-700  ">
                                         <a href="{{ route('task.show', $task->slug) }}">{{ $task->name }}</a>
@@ -157,7 +157,12 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+
+                            @empty
+                                <tr>
+                                    <td class="border py-2 text-center" colspan="5">No Task Found!</td>
+                                </tr>
+                            @endforelse
 
 
                         </tbody>
