@@ -93,8 +93,8 @@
                                         <input type="file" class="flex-1" name="invoice_logo" id="logo">
                                     </div>
                                     <div class="border p-2">
-                                        @if (file_exists('storage/uploads/invoice.png'))
-                                            <img src="{{ asset('storage/uploads/invoice.png') }}"
+                                        @if (Auth::user()->invoice_logo !=null)
+                                            <img src="{{ asset('storage/uploads/'.Auth::user()->invoice_logo) }}"
                                                 class="w-20" alt="">
                                         @else
                                             <img src="img/invo-mate.png" width="100" class="w-40">

@@ -42,21 +42,25 @@ class settingsController extends Controller {
             $request->file( 'thumbnail' )->storeAs( 'public/uploads', $thumb );
 
         }
+        $invoice = $user->invoice_logo;
 
+        // update new invoice logo
         if ( !empty( $request->file( 'invoice_logo' ) ) ) {
 
-            $invoice = 'invoice.png';
+            $invoice = time() . '-invoice.png';
 
             $request->file( 'invoice_logo' )->storeAs( 'public/uploads', $invoice );
         }
 
+        // update new user
         $user->update( [
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'company'   => $request->company,
-            'phone'     => $request->phone,
-            'country'   => $request->country,
-            'thumbnail' => $thumb,
+            'name'         => $request->name,
+            'email'        => $request->email,
+            'company'      => $request->company,
+            'phone'        => $request->phone,
+            'country'      => $request->country,
+            'thumbnail'    => $thumb,
+            'invoice_logo' => $invoice,
         ] );
 
         return redirect()->route( 'settings.index' )->with( 'success', 'User Updated' );

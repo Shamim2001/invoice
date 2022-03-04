@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration {
             $table->string( 'country' )->nullable();
             $table->string( 'password' );
             $table->string( 'thumbnail' )->nullable();
+            $table->string( 'invoice_logo' )->nullable();
             $table->rememberToken();
             $table->timestamps();
         } );

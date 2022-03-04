@@ -180,16 +180,16 @@
             <div class="header_logo">
 
                 @if (request('preview') == 'yes')
-                    @if (file_exists('storage/uploads/invoice.png'))
-                        <img src="{{ asset('storage/uploads/invoice.png') }}" width="100" class="w-40"
+                    @if (Auth::user()->invoice_logo !=null)
+                        <img src="{{ asset('storage/uploads/'. Auth::user()->invoice_logo) }}" width="100" class="w-40"
                             style="margin-left:auto">
                     @else
                         <img src="{{ asset('img/invo-mate.png') }}" width="100" class="w-40"
                             style="margin-left:auto">
                     @endif
                 @else
-                    @if (file_exists('storage/uploads/invoice.png'))
-                        <img src="storage/uploads/invoice.png" width="100" class="w-40"
+                    @if (Auth::user()->invoice_logo !=null)
+                        <img src="storage/uploads/{{ Auth::user()->invoice_logo }}" width="100" class="w-40"
                             style="margin-left:auto">
                     @else
                         <img src="img/invo-mate.png" width="100" class="w-40" style="margin-left:auto">
