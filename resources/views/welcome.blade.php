@@ -13,11 +13,16 @@
                 <h2 class="font-bold text-6xl">INVO</h2>
             </div>
             <h3 class="text-xl">freelancer invoice helper</h3>
-            <div class="flex space-x-5">
-                <a href="{{ route('login') }}"
-                    class="border border-orange-400 px-5 py-1 mt-3 hover:bg-orange-400 transition-all duration-300 hover:text-white inline-block">Login</a>
-                <a href="{{ route('register') }}"
-                    class="border border-orange-400 px-5 py-1 mt-3 hover:bg-orange-400 transition-all duration-300 hover:text-white inline-block">Register</a>
+            <div class="flex space-x-5 text-center">
+                @auth
+                    <a href="{{ route('dashboard') }}"
+                        class="border border-orange-400 px-5 py-1 mt-3  hover:bg-orange-400 transition-all duration-300 hover:text-white inline-block">Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}"
+                        class="border border-orange-400 px-5 py-1 mt-3 hover:bg-orange-400 transition-all duration-300 hover:text-white inline-block">Login</a>
+                    <a href="{{ route('register') }}"
+                        class="border border-orange-400 px-5 py-1 mt-3 hover:bg-orange-400 transition-all duration-300 hover:text-white inline-block">Register</a>
+                @endauth
             </div>
         </div>
         <div class="flex-1 w-full">
