@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\InvoiceMail;
 use App\Models\Client;
-use App\Models\invoice;
+use App\Models\Invoice;
 use App\Models\Task;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Http\Request;
@@ -19,7 +19,7 @@ class InvoiceController extends Controller {
      */
     public function index( Request $request ) {
 
-        $invoices = invoice::with( 'client' )->where( 'user_id', Auth::id() )->latest();
+        $invoices = Invoice::with( 'client' )->where( 'user_id', Auth::id() )->latest();
 
         if ( !empty( $request->client_id ) ) {
             $invoices = $invoices->where( 'client_id', $request->client_id );
