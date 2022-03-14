@@ -115,8 +115,40 @@
 
                             @forelse ($tasks as $task)
                                 <tr>
-                                    <td class="border py-2 text-left px-2 font-bold   text-sm hover:text-purple-700  ">
-                                        <a href="{{ route('task.show', $task->slug) }}">{{ $task->name }}</a>
+                                    <td class="border py-2 text-left px-2 relative">
+                                        <a class="font-bold   text-sm hover:text-purple-700"
+                                            href="{{ route('task.show', $task->slug) }}">{{ $task->name }}</a>
+
+                                        @php
+                                            $days_left = Carbon\Carbon::parse($task->end_date)->diffInDays(Carbon\Carbon::now());
+
+                                            if ($days_left == 1) {
+                                                $percent = 95;
+                                                $color = 'bg-red-700';
+                                            } elseif ($days_left < 3) {
+                                                $percent = 75;
+                                                $color = 'bg-red-400';
+                                            } elseif ($days_left < 5) {
+                                                $percent = 50;
+                                                $color = 'bg-red-300';
+                                            } else {
+                                                $percent = 100;
+                                                $color = 'bg-green-500';
+                                            }
+
+                                        @endphp
+
+                                        <span class="absolute bottom-2 right-1 text-xs ">{{ $days_left }} Days
+                                            Left</span>
+                                        @if ($task->status == 'complete')
+                                            <div class="absolute h-1 w-full z-10 bg-green-600 left-0 bottom-0 "></div>
+                                        @else
+                                            <div class="absolute h-1 z-10 left-0 bottom-0"
+                                                style="width:{{ $percent }}; background-color:{{ $color }}">
+                                            </div>
+                                        @endif
+
+                                        <div class="absolute h-1 w-1/2 bg-slate-400 left-0 bottom-0 "></div>
                                     </td>
                                     <td class="border py-2 text-center text-sm">{{ $task->price }}</td>
                                     <td class="border py-2 text-center capitalize text-sm">{{ $task->status }}

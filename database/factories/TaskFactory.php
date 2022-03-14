@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Client;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 class TaskFactory extends Factory {
@@ -26,6 +27,7 @@ class TaskFactory extends Factory {
             'status'      => $status[rand( 0, 1 )],
             'client_id'   => Client::all()->random()->id,
             'user_id'     => User::all()->random()->id,
+            'end_date'    => Carbon::now()->addDays( rand( 2, 7 ) )->format( 'Y-m-d' ),
         ];
     }
 }

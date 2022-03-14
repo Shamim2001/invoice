@@ -69,18 +69,30 @@ class TaskController extends Controller {
      */
     public function store( Request $request ) {
 
+        // validation
         $this->taskValidation( $request );
 
-        Task::create( [
-            'name'        => $request->name,
-            'slug'        => Str::slug( $request->name ),
-            'price'       => $request->price,
-            'description' => $request->description,
-            'client_id'   => $request->client_id,
-            'user_id'     => Auth::id(),
-        ] );
+        try {
+            // tasks store in database
+            Task::create( [
+                'name'        => $request->name,
+                'slug'        => Str::slug( $request->name ),
+                'price'       => $request->price,
+                'description' => $request->description,
+                'client_id'   => $request->client_id,
+                'user_id'     => Auth::id(),
+                'start_date'  => $request->start_date,
+                'end_date'    => $request->end_date,
+                'priority'    => $request->priority,
+            ] );
 
-        return redirect()->route( 'task.index' )->with( 'success', 'Task Added Successfull!' );
+            // return response
+            return redirect()->route( 'task.index' )->with( 'success', 'Task Added Successfull!' );
+
+        } catch ( \Throwable$th ) {
+            // throw $th
+            return redirect()->route( 'task.index' )->with( 'error', $th->getMessage() );
+        }
     }
 
     /**
@@ -112,10 +124,14 @@ class TaskController extends Controller {
 
     public function taskValidation( Request $request ) {
 
+        // validation
         return $request->validate( [
-            'name'      => ['required', 'max:255', 'string'],
-            'price'     => ['required', 'integer'],
-            'client_id' => ['required', 'max:255', 'not_in:none'],
+            'name'       => ['required', 'max:255', 'string'],
+            'client_id'  => ['required', 'max:255', 'not_in:none'],
+            'price'      => ['required', 'integer'],
+            'start_date' => ['required', 'max:255'],
+            'end_date'   => ['required', 'max:255'],
+            'priority'   => ['required', 'max:255', 'not_in:none'],
         ] );
     }
 

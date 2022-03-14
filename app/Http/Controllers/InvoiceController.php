@@ -213,6 +213,6 @@ class InvoiceController extends Controller {
             'email_sent' => 'yes',
         ] );
 
-        return redirect()->route( 'invoice.index' );
+        return redirect()->route( 'invoice.index' )->with('success', 'email send');
     }
 }
