@@ -20,9 +20,10 @@ class CreateTasksTable extends Migration {
             $table->string( 'start_date' )->default( now()->format( 'Y-m-d' ) );
             $table->string( 'end_date' )->default( now()->format( 'Y-m-d' ) );
             $table->enum( 'status', ['pending', 'complete'] )->default( 'pending' );
-            $table->enum( 'priority', ['low', 'medium', 'high'] )->default( 'low' );
+            $table->enum( 'priority', ['low', 'midium', 'high'] )->default( 'low' );
             $table->foreignId( 'client_id' )->constrained( 'clients', 'id' )->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->foreignId( 'user_id' )->constrained( 'users', 'id' )->onUpdate( 'cascade' )->onDelete( 'cascade' );
+            $table->softDeletes();
             $table->timestamps();
         } );
     }

@@ -80,7 +80,8 @@
                             <div class="flex-1 ml-4">
                                 <label for="start_date" class="formLabel">Start Date</label>
                                 <input type="date" class="formInput" name="start_date" id="start_date"
-                                    value="{{ now()->format('Y-m-d') }}" max="{{ now()->format('Y-m-d') }}" >
+                                    value="{{ now()->format('Y-m-d') }}" max="{{ now()->format('Y-m-d') }}">
+
                             </div>
                             @error('start_date')
                                 <p class="text-red-700 text-sm">{{ $message }}</p>
@@ -101,7 +102,7 @@
                                 <select name="priority" id="priority" class="formInput">
                                     <option value="none">Select Priority</option>
                                     <option value="high">High</option>
-                                    <option value="medium">Medium</option>
+                                    <option value="midium">Midium</option>
                                     <option value="low">Low</option>
                                 </select>
 
@@ -117,8 +118,7 @@
                         <div class="mt-6 flex">
                             <div class="flex-1">
                                 <label for="description" class="formLabel">Description</label>
-                                <textarea name="description" id="description" rows="10"
-                                    class="formInput">{{ old('description') }}</textarea>
+                                <textarea name="description" id="description" rows="10" class="formInput">{{ old('description') }}</textarea>
 
                                 @error('description')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>

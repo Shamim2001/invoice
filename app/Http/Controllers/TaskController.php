@@ -16,7 +16,7 @@ class TaskController extends Controller {
      */
     public function index( Request $request ) {
 
-        $tasks = Task::where( 'user_id', Auth::id() )->with( 'client' )->orderBy( 'id', 'DESC' );
+        $tasks = Task::where( 'user_id', Auth::user()->id )->orderBy( 'status', 'ASC' )->orderBy( 'end_date', 'ASC' )->orderBy( 'priority', 'DESC' );
 
         // client filter
         if ( !empty( $request->client_id ) ) {

@@ -20,6 +20,7 @@ class CreateInvoicesTable extends Migration {
             $table->enum( 'status', ['paid', 'unpaid'] )->default( 'unpaid' );
             $table->enum( 'email_sent', ['yes', 'no'] )->default( 'no' );
             $table->string( 'download_url' );
+            $table->softDeletes();
             $table->timestamps();
         } );
     }
