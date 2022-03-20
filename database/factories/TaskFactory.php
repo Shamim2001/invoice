@@ -29,7 +29,7 @@ class TaskFactory extends Factory {
             'priority'    => $priority[rand( 0, 2 )],
             'client_id'   => Client::all()->random()->id,
             'user_id'     => User::all()->random()->id,
-            'end_date'    => Carbon::now()->addDays( rand( 2, 7 ) )->format( 'Y-m-d' ),
+            'end_date'    => Carbon::now()->addDays( rand( 2, 7 ) ),
         ];
     }
 }

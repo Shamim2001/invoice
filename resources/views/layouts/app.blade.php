@@ -17,7 +17,6 @@
     <script src="{{ asset('ckeditor/ckeditor.js') }}" defer></script>
     {{-- countdown js --}}
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="{{ asset('js/loopcounter.js') }}"></script>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>

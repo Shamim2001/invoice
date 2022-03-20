@@ -121,16 +121,30 @@
                                             href="{{ route('task.show', $task->slug) }}">{{ $task->name }}</a>
 
                                         @php
-                                            $days_left = Carbon\Carbon::parse($task->end_date)->diffInDays(Carbon\Carbon::now());
 
-                                            if ($task->end_date > Carbon\Carbon::now() && $task->status != 'complete') {
-                                                if ($days_left == 1) {
+                                            $startdate = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', Carbon\Carbon::now())->setTimeZone('Asia/Dhaka');
+                                            $enddate = $task->end_date;
+
+                                            // Time left Calculation
+                                            if ( $enddate > $startdate ) {
+                                                $days = $startdate->diffInDays($enddate);
+                                                $hours = $startdate->copy()->addDays($days)->diffInHours($enddate);
+                                                $minutes = $startdate->copy()->addDays($days)->addHours($hours)->diffInMinutes($enddate);;
+                                            } else {
+                                                $days = 0;
+                                                $hours = 0;
+                                                $minutes = 0;
+                                            }
+
+                                            // Bar Color And percent
+                                            if ( $enddate > $startdate && $task->status == 'pending' ) {
+                                                if ($days == 1) {
                                                     $percent = 95;
                                                     $color = 'bg-red-700';
-                                                } elseif ($days_left < 3) {
+                                                } elseif ($days < 3) {
                                                     $percent = 75;
                                                     $color = 'bg-red-400';
-                                                } elseif ($days_left < 5) {
+                                                } elseif ($days < 5) {
                                                     $percent = 50;
                                                     $color = 'bg-red-300';
                                                 } else {
@@ -141,27 +155,19 @@
                                                 $percent = 100;
                                                 $color = 'bg-red-300';
                                             }
-
                                         @endphp
-
-                                        <div class="counter-class border-t py-1 mt-2 flex justify-end space-x-2 task-{{ $task->id }}"
+                                        <div class="counter-class text-sm border-t py-1 mt-2 flex justify-end space-x-2 task-{{ $task->id }}"
                                             data-date="{{ $task->end_date }}">
-                                            @if ($task->end_date > Carbon\Carbon::now() )
-                                                <div class="mx-2 text-sm"><span class="counter-days"></span> Days</div>
-                                                <div class="mx-2 text-sm"><span class="counter-hours"></span> Hours</div>
-                                                <div class="mx-2 text-sm"><span class="counter-minutes"></span> Minutes</div>
-                                                <div class="mx-2 text-sm"><span class="counter-seconds"></span> Seconds</div>
+
+                                            @if ( $enddate > $startdate && $task->status == 'pending' )
+                                            <p>{{ $days != 0 ? $days. ' Days,' : '' }} {{ $hours != 0 ? $hours. ' Hours,' : '' }} {{ $minutes != 0 ? $minutes. ' Minutes,' : '' }}</p>
                                             @else
-                                            <div class="text-sm">{{ $task->status =='pending' ? 'Time Over Due!' : '' }}</div>
+                                            <div class="text-sm">
+                                                {{ $task->status =='pending' ? 'Time Over Due!' : '' }}
+                                            </div>
                                             @endif
 
                                         </div>
-
-                                        <script type="text/javascript">
-                                            $(document).ready(function() {
-                                                loopcounter('task-' + {{ $task->id }});
-                                            });
-                                        </script>
 
                                         {{-- <span
                                             class="absolute bottom-2 right-1 text-xs ">{{ Carbon\Carbon::parse($task->end_date)->diffForHumans() }}</span> --}}
