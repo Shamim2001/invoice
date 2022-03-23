@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityEvent;
 use App\Models\Client;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -15,34 +16,36 @@ class TaskController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index( Request $request ) {
+        // get tasks order by id
+        $tasks = Task::where( 'user_id', Auth::id() )->orderBy( 'status', 'ASC' )->orderBy( 'end_date', 'ASC' )->orderBy( 'priority', 'DESC' );
 
-        $tasks = Task::where( 'user_id', Auth::user()->id )->orderBy( 'status', 'ASC' )->orderBy( 'end_date', 'ASC' )->orderBy( 'priority', 'DESC' );
-
-        // client filter
+        // filter by client
         if ( !empty( $request->client_id ) ) {
             $tasks = $tasks->where( 'client_id', $request->client_id );
         }
 
-        // status filter
+        // filter by status
         if ( !empty( $request->status ) ) {
             $tasks = $tasks->where( 'status', $request->status );
         }
 
-        // start date filter
+        // filter by form date
         if ( !empty( $request->formDate ) ) {
             $tasks = $tasks->where( 'created_at', '>=', $request->formDate );
         }
-        // end date filter
+        // filter by end date
         if ( !empty( $request->endDate ) ) {
             $tasks = $tasks->where( 'created_at', '<=', $request->endDate );
         }
-        // price filter
+        // filter by price
         if ( !empty( $request->price ) ) {
             $tasks = $tasks->where( 'price', '<=', $request->price );
         }
 
+        // task with pagination
         $tasks = $tasks->paginate( 10 )->withQueryString();
 
+        // return view
         return view( 'task.index' )->with( [
             'clients' => Client::where( 'user_id', Auth::id() )->get(),
             'tasks'   => $tasks,
@@ -55,7 +58,7 @@ class TaskController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-
+        // return view
         return view( 'task.create' )->with( [
             'clients' => Client::where( 'user_id', Auth::id() )->get(),
         ] );
@@ -74,7 +77,7 @@ class TaskController extends Controller {
 
         try {
             // tasks store in database
-            Task::create( [
+            $task = Task::create( [
                 'name'        => $request->name,
                 'slug'        => Str::slug( $request->name ),
                 'price'       => $request->price,
@@ -86,6 +89,7 @@ class TaskController extends Controller {
                 'priority'    => $request->priority,
             ] );
 
+            event( new ActivityEvent( 'Task ' . $task->id . ' Created', 'Task' ) );
             // return response
             return redirect()->route( 'task.index' )->with( 'success', 'Task Added Successfull!' );
 
@@ -102,10 +106,8 @@ class TaskController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show( $slug ) {
-
-        $task = Task::where( 'slug', $slug )->get()->first();
-
-        return view( 'task.show' )->with( 'task', $task );
+        // return view with task search by slug
+        return view( 'task.show' )->with( 'task', Task::where( 'slug', $slug )->get()->first() );
     }
 
     /**
@@ -115,15 +117,19 @@ class TaskController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit( Task $task ) {
-
+        // return view
         return view( 'task.edit' )->with( [
             'task'    => $task,
             'clients' => Client::where( 'user_id', Auth::id() )->get(),
         ] );
     }
 
+    /**
+     * Task Validation
+     *
+     * @param Request $request
+     */
     public function taskValidation( Request $request ) {
-
         // validation
         return $request->validate( [
             'name'       => ['required', 'max:255', 'string'],
@@ -143,19 +149,28 @@ class TaskController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update( Request $request, Task $task ) {
-
+        // validation
         $this->taskValidation( $request );
 
-        $task->update( [
-            'name'        => $request->name,
-            'slug'        => Str::slug( $request->name ),
-            'price'       => $request->price,
-            'description' => $request->description,
-            'client_id'   => $request->client_id,
-            'user_id'     => Auth::id(),
-        ] );
+        try {
+            $task->update( [
+                'name'        => $request->name,
+                'slug'        => Str::slug( $request->name ),
+                'price'       => $request->price,
+                'description' => $request->description,
+                'client_id'   => $request->client_id,
+                'user_id'     => Auth::id(),
+            ] );
+            // event
+            event( new ActivityEvent( 'Task ' . $task->id . ' Updated', 'Task' ) );
+            // return
+            return redirect()->route( 'task.index' )->with( 'success', 'Task Update Successfull!' );
 
-        return redirect()->route( 'task.index' )->with( 'success', 'Task Update Successfull!' );
+        } catch ( \Throwable$th ) {
+            // throw $th
+            return redirect()->route( 'task.index' )->with( 'success', 'Task Update Successfull!' );
+        }
+
     }
 
     /**
@@ -166,17 +181,28 @@ class TaskController extends Controller {
      */
     public function destroy( Task $task ) {
 
-        $task->delete();
+        try {
+            $task->delete();
+            event( new ActivityEvent( 'Task ' . $task->id . ' Deleted', 'Task' ) );
+            return redirect()->route( 'task.index' )->with( 'success', 'Task Delete Successfull!' );
+        } catch ( \Throwable$th ) {
+            // throw $th
+            return redirect()->route( 'task.index' )->with( 'success', 'Task Delete Successfull!' );
+        }
 
-        return redirect()->route( 'task.index' )->with( 'success', 'Task Delete Successfull!' );
     }
 
     public function markAsComplete( Task $task ) {
 
-        $task->update( [
-            'status' => 'complete',
-        ] );
+        try {
+            $task->update( [
+                'status' => 'complete',
+            ] );
+            return redirect()->back()->with( 'success', 'Mark as Completed' );
+        } catch ( \Throwable$th ) {
+            // throw $th
+            return redirect()->back()->with( 'success', 'Mark as Completed' );
+        }
 
-        return redirect()->back()->with( 'success', 'Mark as Completed' );
     }
 }

@@ -18,7 +18,7 @@ class CreateActivityLogsTable extends Migration
             $table->id();
             $table->string('message');
             $table->string('model')->nullable();
-            $table->foreignId('user_id')->default(Auth::id());
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }

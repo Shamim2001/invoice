@@ -105,11 +105,18 @@
                 <div class="max-w-none flex-1">
                     <h3 class="text-white font-bold text-2xl pb-5">Activity Log:</h3>
                     <ul class="bg-cyan-600 px-5 py-4">
-                        <li class=" flex justify-between items-center border-b">
-                            <a class="text-white w-8/12"
-                                >John Deo - Client Added</a>
-                                <span class="text-white text-xs w-4/12 text-right">4 Minutes ago</span>
+
+                        @forelse ($activity_logs->slice(0, 10) as $activity )
+                            <li class=" flex justify-between items-center border-b">
+                            <a class="text-white w-8/12">{{ $activity->message }}</a>
+                            <span class="text-white text-xs w-4/12 text-right">{{ $activity->created_at->diffForHumans() }}</span>
                         </li>
+                        @empty
+                            <li class=" flex justify-between items-center border-b">
+                            <span class="text-white text-xs w-4/12 text-right">4 Minutes ago</span>
+                        </li>
+                        @endforelse
+
 
 
                         {{-- @forelse ($paid_invoices->slice(0, 5) as $invoice)

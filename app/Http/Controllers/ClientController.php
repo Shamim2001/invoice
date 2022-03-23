@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityEvent;
 use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,29 +15,24 @@ class ClientController extends Controller {
      * Display a listing of the resource.
      *
      * @return view with clients filter by user
-     * @return \Illuminate\Http\Response
      */
     public function index() {
 
         $data = Client::where( 'user_id', Auth::user()->id )->with( 'tasks' )->latest()->paginate( 10 );
-
         return view( 'client.index' )->with( 'clients', $data );
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new client.
      *
      * @return view with countries
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create() {
-
         return view( 'client.create' )->with( 'countries', $this->countries_list );
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created client in database.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -60,7 +56,7 @@ class ClientController extends Controller {
                 $request->file( 'thumbnail' )->storeAs( 'public/uploads', $thumb );
             }
             // create new Client
-            Client::create( [
+            $client = Client::create( [
                 'name'      => $request->name,
                 'username'  => $request->username,
                 'email'     => $request->email,
@@ -70,6 +66,7 @@ class ClientController extends Controller {
                 'user_id'   => Auth::user()->id,
                 'status'    => $request->status,
             ] );
+            event( new ActivityEvent( 'Client ' . $client->id . ' Created', 'Client' ) );
             // return Response
             return redirect()->route( 'client.index' )->with( 'success', 'Client Added Succesfully!' );
         } catch ( \Throwable$th ) {
@@ -101,10 +98,9 @@ class ClientController extends Controller {
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Client  $client
-     * @return \Illuminate\Http\Response
+     * @return view with clients and countries
      */
     public function edit( Client $client ) {
-
         return view( 'client.edit' )->with( [
             'client'    => $client,
             'countries' => $this->countries_list,
@@ -112,7 +108,7 @@ class ClientController extends Controller {
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified client in database.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Client  $client
@@ -129,16 +125,15 @@ class ClientController extends Controller {
             'thumbnail' => 'image',
 
         ] );
-        // default thumbnail from database
-        $thumb = $client->thumbnail;
 
         try {
+            // default thumbnail from database
+            $thumb = $client->thumbnail;
+
+            // upload new thumbnail
             if ( !empty( $request->file( 'thumbnail' ) ) ) {
-
                 Storage::delete( 'public/uploads/' . $thumb ); // delete the old image
-
                 $thumb = time() . '-' . $request->file( 'thumbnail' )->getClientOriginalName();
-
                 $request->file( 'thumbnail' )->storeAs( 'public/uploads', $thumb );
             }
 
@@ -154,8 +149,9 @@ class ClientController extends Controller {
                 'status'    => $request->status,
             ] );
 
+            event( new ActivityEvent( 'Client ' . $client->id . ' Updated', 'Client' ) );
             // return Response
-            return redirect()->route( 'client.index' )->with( 'success', 'Client Updated!' );
+            return redirect()->route( 'client.index' )->with( 'error', 'Client Updated!' );
         } catch ( \Throwable$th ) {
             // throw $th
             return redirect()->route( 'client.index' )->with( 'error', $th->getMessage() );
@@ -164,7 +160,7 @@ class ClientController extends Controller {
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified client from database.
      *
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
@@ -179,6 +175,7 @@ class ClientController extends Controller {
             if ( count( $pending_tasks ) == 0 ) {
                 Storage::delete( 'public/uploads/' . $client->thumbnail );
                 $client->delete();
+                event( new ActivityEvent( 'Client ' . $client->id . ' Deleted', 'Client' ) );
             } else {
                 $client->update( [
                     'status' => 'inactive',
