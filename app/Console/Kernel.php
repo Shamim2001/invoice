@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel {
      * @return void
      */
     protected function schedule( Schedule $schedule ) {
-        $schedule->command( 'queue:work --rest=40' )->everyHours();
+        $schedule->command( 'queue:work --rest=10' )->hourly();
+        $schedule->command( 'client:yearlyemail' )->daily();
     }
 
     /**

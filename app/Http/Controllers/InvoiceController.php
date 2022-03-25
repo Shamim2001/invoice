@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityEvent;
 use App\Mail\InvoiceMail;
 use App\Models\Client;
 use App\Models\Invoice;
@@ -87,6 +88,8 @@ class InvoiceController extends Controller {
             $invoice->update( [
                 'status' => $invoice->status == 'unpaid' ? 'paid' : 'unpaid',
             ] );
+            // event
+            event( new ActivityEvent( 'Invoice ' . $invoice->id . ' updated', 'Invoice' ) );
             // return response
             return redirect()->route( 'invoice.index' )->with( 'success', 'Invoice payment paided!' );
         } catch ( \Throwable$th ) {
@@ -107,6 +110,8 @@ class InvoiceController extends Controller {
             Storage::delete( 'public/invoices/' . $invoice->download_url );
             // delete data from database
             $invoice->delete();
+            // event
+            event( new ActivityEvent( 'Invoice ' . $invoice->id . ' Deleted', 'Invoice' ) );
             // return response
             return redirect()->route( 'invoice.index' )->with( 'success', 'Invoice has been Deleted!' );
         } catch ( \Throwable$th ) {
@@ -230,6 +235,8 @@ class InvoiceController extends Controller {
             'discount'      => $discount,
             'discount_type' => $discount_type,
         ];
+        // event fire
+        event( new ActivityEvent( 'Invoice ' .$invo_no. ' Generated', 'Invoice' ) );
 
         // PDF generate with data
         $pdf = PDF::loadView( 'invoice.pdf', $data );
@@ -273,9 +280,9 @@ class InvoiceController extends Controller {
             $invoice->update( [
                 'email_sent' => 'yes',
             ] );
-
+                event( new ActivityEvent( 'Invoice ' . $invoice->id . ' Email Send', 'Invoice' ) );
             // return response
-            return redirect()->route( 'invoice.index' )->with( 'success', 'email send' );
+            return redirect()->route( 'invoice.index' )->with( 'success', 'Email Send' );
         } catch ( \Throwable$th ) {
             // throw $th
             return redirect()->route( 'invoice.index' )->with( 'eror', $th->getMessage() );

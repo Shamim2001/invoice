@@ -28,6 +28,7 @@
                                 <span class="text-xs">({{ $client->username }})</span>
                             </h1>
                             <h2 class="text-white">{{ $client->country }}</h2>
+                            <span class="text-xs text-white">Joined {{ $client->created_at->diffForHumans()}}</span>
                         </div>
 
                     </div>
