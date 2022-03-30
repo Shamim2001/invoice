@@ -89,7 +89,7 @@ class InvoiceController extends Controller {
                 'status' => $invoice->status == 'unpaid' ? 'paid' : 'unpaid',
             ] );
             // event
-            event( new ActivityEvent( 'Invoice ' . $invoice->id . ' updated', 'Invoice' ) );
+            event( new ActivityEvent( 'Invoice ' . $invoice->id . ' updated', 'Invoice', Auth::id() ) );
             // return response
             return redirect()->route( 'invoice.index' )->with( 'success', 'Invoice payment paided!' );
         } catch ( \Throwable$th ) {
@@ -111,7 +111,7 @@ class InvoiceController extends Controller {
             // delete data from database
             $invoice->delete();
             // event
-            event( new ActivityEvent( 'Invoice ' . $invoice->id . ' Deleted', 'Invoice' ) );
+            event( new ActivityEvent( 'Invoice ' . $invoice->id . ' Deleted', 'Invoice', Auth::id() ) );
             // return response
             return redirect()->route( 'invoice.index' )->with( 'success', 'Invoice has been Deleted!' );
         } catch ( \Throwable$th ) {
@@ -236,7 +236,7 @@ class InvoiceController extends Controller {
             'discount_type' => $discount_type,
         ];
         // event fire
-        event( new ActivityEvent( 'Invoice ' .$invo_no. ' Generated', 'Invoice' ) );
+        event( new ActivityEvent( 'Invoice ' .$invo_no. ' Generated', 'Invoice', Auth::id() ) );
 
         // PDF generate with data
         $pdf = PDF::loadView( 'invoice.pdf', $data );
@@ -280,7 +280,7 @@ class InvoiceController extends Controller {
             $invoice->update( [
                 'email_sent' => 'yes',
             ] );
-                event( new ActivityEvent( 'Invoice ' . $invoice->id . ' Email Send', 'Invoice' ) );
+                event( new ActivityEvent( 'Invoice ' . $invoice->id. ' Email Send', 'Invoice', Auth::id()) );
             // return response
             return redirect()->route( 'invoice.index' )->with( 'success', 'Email Send' );
         } catch ( \Throwable$th ) {

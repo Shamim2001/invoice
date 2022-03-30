@@ -22,7 +22,7 @@ Route::prefix( '/' )->middleware( ['auth'] )->group( function () {
 
         return view( 'dashboard' )->with( [
             'user'            => $user,
-            'activity_logs'   => ActivityLog::where('user_id', Auth::id())->latest()->get(),
+            'activity_logs'   => ActivityLog::where( 'user_id', Auth::id() )->latest()->get(),
             'pending_task'    => $user->tasks->where( 'status', 'pending' ),
             'unpaid_invoices' => $user->invoices->where( 'status', 'unpaid' ),
             'paid_invoices'   => $user->invoices->where( 'status', 'paid' ),

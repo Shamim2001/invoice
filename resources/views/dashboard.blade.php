@@ -113,7 +113,7 @@
                         </li>
                         @empty
                             <li class=" flex justify-between items-center border-b">
-                            <span class="text-white text-xs w-4/12 text-right">4 Minutes ago</span>
+                            <span class="text-white text-xs w-4/12 text-right">No Activity Found!</span>
                         </li>
                         @endforelse
 

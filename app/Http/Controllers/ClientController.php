@@ -66,7 +66,7 @@ class ClientController extends Controller {
                 'user_id'   => Auth::user()->id,
                 'status'    => $request->status,
             ] );
-            event( new ActivityEvent( 'Client ' . $client->id . ' Created', 'Client' ) );
+            event( new ActivityEvent( 'Client ' . $client->id . ' Created', 'Client', Auth::id() ) );
             // return Response
             return redirect()->route( 'client.index' )->with( 'success', 'Client Added Succesfully!' );
         } catch ( \Throwable$th ) {
@@ -149,7 +149,7 @@ class ClientController extends Controller {
                 'status'    => $request->status,
             ] );
 
-            event( new ActivityEvent( 'Client ' . $client->id . ' Updated', 'Client' ) );
+            event( new ActivityEvent( 'Client ' . $client->id . ' Updated', 'Client', Auth::id() ) );
             // return Response
             return redirect()->route( 'client.index' )->with( 'error', 'Client Updated!' );
         } catch ( \Throwable$th ) {
@@ -175,7 +175,7 @@ class ClientController extends Controller {
             if ( count( $pending_tasks ) == 0 ) {
                 Storage::delete( 'public/uploads/' . $client->thumbnail );
                 $client->delete();
-                event( new ActivityEvent( 'Client ' . $client->id . ' Deleted', 'Client' ) );
+                event( new ActivityEvent( 'Client ' . $client->id . ' Deleted', 'Client', Auth::id() ) );
             } else {
                 $client->update( [
                     'status' => 'inactive',

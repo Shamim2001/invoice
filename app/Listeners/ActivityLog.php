@@ -4,9 +4,10 @@ namespace App\Listeners;
 
 use App\Events\ActivityEvent;
 use App\Models\ActivityLog as ModelsActivityLog;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Auth;
 
-class ActivityLog {
+class ActivityLog implements ShouldQueue {
     /**
      * Create the event listener.
      *
@@ -26,7 +27,7 @@ class ActivityLog {
         ModelsActivityLog::create( [
             'message' => $event->message,
             'model'   => $event->model,
-            'user_id' => Auth::id(),
+            'user_id' => $event->user,
         ] );
     }
 }

@@ -89,7 +89,7 @@ class TaskController extends Controller {
                 'priority'    => $request->priority,
             ] );
 
-            event( new ActivityEvent( 'Task ' . $task->id . ' Created', 'Task' ) );
+            event( new ActivityEvent( 'Task ' . $task->id . ' Created', 'Task', Auth::id() ) );
             // return response
             return redirect()->route( 'task.index' )->with( 'success', 'Task Added Successfull!' );
 
@@ -162,7 +162,7 @@ class TaskController extends Controller {
                 'user_id'     => Auth::id(),
             ] );
             // event
-            event( new ActivityEvent( 'Task ' . $task->id . ' Updated', 'Task' ) );
+            event( new ActivityEvent( 'Task ' . $task->id . ' Updated', 'Task', Auth::id() ) );
             // return
             return redirect()->route( 'task.index' )->with( 'success', 'Task Update Successfull!' );
 
@@ -183,7 +183,7 @@ class TaskController extends Controller {
 
         try {
             $task->delete();
-            event( new ActivityEvent( 'Task ' . $task->id . ' Deleted', 'Task' ) );
+            event( new ActivityEvent( 'Task ' . $task->id . ' Deleted', 'Task', Auth::id() ) );
             return redirect()->route( 'task.index' )->with( 'success', 'Task Delete Successfull!' );
         } catch ( \Throwable$th ) {
             // throw $th
