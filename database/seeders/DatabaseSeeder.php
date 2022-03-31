@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder {
             'country'   => 'Bangladesh',
             'password'  => bcrypt( '123' ),
             'thumbnail' => 'https://picsum.phptos/300',
+            'role' => 'admin',
         ] );
         // User::create( [
         //     'name'      => ' demo ',

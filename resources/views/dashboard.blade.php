@@ -13,15 +13,12 @@
                 <x-card text="Clients" :route="route('client.index')" :count="count($user->clients)"
                     class="bg-gradient-to-tr from-cyan-300 to-white rounded-md" />
 
-
-
                 <x-card text="Pending Tasks" route="{{ route('task.index') }}??status=pending"
                     :count="count($pending_task)" class="bg-gradient-to-tl from-cyan-300 to-white rounded-md" />
 
                 <x-card text="Completed Tasks" route="{{ route('task.index') }}??status=pending"
                     :count=" count($user->tasks) - count($pending_task)"
                     class="bg-gradient-to-bl from-cyan-300 to-white rounded-md" />
-
 
                 <x-card text="Due Invoice" route="{{ route('invoice.index') }}??status=pending"
                     :count="count($unpaid_invoices)" class="bg-gradient-to-br from-cyan-300 to-white rounded-md" />
@@ -32,11 +29,10 @@
 
     <div class="">
         <div class="container mx-auto ">
-            <div class="flex space-x-10 pb-20">
-                <div class="max-w-none ">
-                    <h3 class="text-white font-bold text-2xl pb-5">Todo:</h3>
-
-                    <ul class="bg-cyan-600 px-10 py-4 inline-block">
+            <div class="flex space-x-5">
+                <div class="max-w-none flex-1">
+                    <h3 class="text-white font-bold text-2xl mb-5">Todo:</h3>
+                    <ul class="bg-cyan-600 px-5 py-4 rounded-md list-none ">
                         @forelse ($pending_task->slice(0, 15) as $task)
                             @php
                                 $startdate = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', Carbon\Carbon::now())->setTimeZone('Asia/Dhaka');
@@ -81,7 +77,7 @@
                                 }
                             @endphp
 
-                            <li class=" flex justify-between items-center border-b">
+                            <li class=" flex justify-between items-center border-b py-1 ">
                                 <a class="text-white hover:text-black transition-all duration-300 w-8/12"
                                     href="{{ route('task.show', $task->slug) }}">{{ $task->name }}</a>
                                 @if ($enddate > $startdate)
@@ -90,58 +86,70 @@
                                         {{ $hours != 0 ? $hours . ' Hours,' : '' }}
                                         {{ $minutes != 0 ? $minutes . ' Minutes,' : '' }} left</span>
                                 @else
-                                    <span class="text-white text-xs w-4/12 text-right">Time Over</span>
+                                    <span class="text-white text-xs w-3/12 text-right">Time Over</span>
                                 @endif
                             </li>
                         @empty
                             <li class="">No tasks found!</li>
                         @endforelse
-                        <div class="text-center">
-                            <a class="inline-block mt-5 px-5 py-1 text-black bg-white uppercase text-decoration-none"
+                        <div class="text-center mt-5">
+                            <a class="inline-block px-5 py-1 text-black bg-white uppercase text-decoration-none"
                                 href="{{ route('task.index') }}"> View More</a>
                         </div>
                     </ul>
                 </div>
-                <div class="max-w-none flex-1">
-                    <h3 class="text-white font-bold text-2xl pb-5">Activity Log:</h3>
-                    <ul class="bg-cyan-600 px-5 py-4">
+
+                {{-- <div class=" flex-1 max-w-none">
+                    <h3 class="text-2xl mb-5 font-bold">Activity Log:</h3>
+                    <ul class="bg-cyan-600 px-5 py-4 text-white rounded-md list-none  ">
+
+                        @forelse ($activity_logs->slice(0,5) as $activity )
+                        <li class="flex justify-between items-center border-b py-1">
+                            <span class=" text-white w-8/12 ">{{ $activity->message }}</span>
+                            <span class="text-white text-xs w-3/12 text-right">{{ $activity->created_at->diffForHumans() }}</span>
+                        </li>
+                        @empty
+                        <li class="flex justify-between items-center border-b py-1">
+                            <span class=" text-white w-8/12 ">No Activity Found!</span>
+                        </li>
+                        @endforelse
+                    </ul>
+                    <h3 class="text-2xl mb-5 font-bold mt-5">Payment History:</h3>
+
+                    <ul class="bg-green-600 px-5 py-4 rounded-md">
+                        @forelse ( $paid_invoices->slice(0,5) as $invoice )
+                         <li class="flex justify-between space-x-10 items-center">
+                            <span class="text-sm">{{ $invoice->updated_at->format('d M, Y')}}</span><span>
+                                {{ $invoice->client->name}}</span><span>${{$invoice->amount}}</span></li>
+                                @empty
+                                <li class="text-white">No Invoice Found!</li>
+                        @endforelse
+                    </ul>
+                </div> --}}
+
+                <div class="max-w-none flex-1 ">
+                    <h3 class="text-white font-bold text-2xl mb-5">Activity Log:</h3>
+                    <ul class="bg-cyan-600 px-5 py-4 rounded-md list-none">
 
                         @forelse ($activity_logs->slice(0, 10) as $activity )
                             <li class=" flex justify-between items-center border-b">
-                            <a class="text-white w-8/12">{{ $activity->message }}</a>
-                            <span class="text-white text-xs w-4/12 text-right">{{ $activity->created_at->diffForHumans() }}</span>
+                            <span class="text-white w-8/12">{{ $activity->message }}</span>
+                            <span class="text-white text-xs w-5/12 text-right">{{ $activity->created_at->diffForHumans() }}</span>
                         </li>
                         @empty
-                            <li class=" flex justify-between items-center border-b">
-                            <span class="text-white text-xs w-4/12 text-right">No Activity Found!</span>
+                            <li class=" flex justify-between items-center border-b py-1 ">
+                            <span class="text-white text-xs  ">No Activity Found!</span>
                         </li>
                         @endforelse
-
-
-
-                        {{-- @forelse ($paid_invoices->slice(0, 5) as $invoice)
-                            <li class=" flex justify-between items-center border-b">
-                                <a class="text-white hover:text-black transition-all duration-300 w-8/12"
-                                    href="{{ route('task.show', $task->slug) }}">{{ $task->name }}</a>
-                                @if ($enddate > $startdate)
-                                    <span
-                                        class="text-white text-xs w-3/12 text-right">{{ $days != 0 ? $days . ' Days,' : '' }}
-                                        {{ $hours != 0 ? $hours . ' Hours,' : '' }}
-                                        {{ $minutes != 0 ? $minutes . ' Minutes,' : '' }} left</span>
-                                @else
-                                    <span class="text-white text-xs w-4/12 text-right">Time Over</span>
-                                @endif
-                            </li>
-                            @empty
-                                <li class="text-white">No paid invoice found!</li>
-                        @endforelse --}}
                     </ul>
-                    <h3 class="text-white font-bold text-2xl pb-5 mt-5">Payment History:</h3>
 
-                    <ul class="bg-cyan-600 px-5 py-4">
+                    <h3 class="text-white font-bold text-2xl pb-5 mt-5">Payment History:</h3>
+                    <ul class="bg-cyan-600 px-5 py-4 rounded-md list-none">
                         @forelse ($paid_invoices->slice(0, 5) as $invoice)
-                            <li class="flex justify-between space-x-10 items-center"><span
-                                    class="text-sm">{{ $invoice->updated_at->format('d M, Y') }}</span><span>{{ $invoice->client->name }}</span><span>$500</span>
+                            <li class="flex justify-between items-center">
+                                <span class="text-sm ">{{ $invoice->updated_at->format('d M, Y') }}</span>
+                                <span class="text-left flex-1 mx-5">{{ $invoice->client->name }}</span>
+                                <span class="text-left">${{ $invoice->amount }}</span>
                             </li>
                         @empty
                             <li class="text-white">No paid invoice found!</li>

@@ -4,6 +4,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\settingsController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
 use App\Models\ActivityLog;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ Route::get( '/', function () {
 } );
 
 // backend
-Route::prefix( '/' )->middleware( ['auth'] )->group( function () {
+Route::prefix( '/' )->middleware( ['auth', 'verified'] )->group( function () {
 
     Route::get( 'dashboard', function () {
 
@@ -29,6 +30,8 @@ Route::prefix( '/' )->middleware( ['auth'] )->group( function () {
         ] );
     } )->name( 'dashboard' );
 
+    // user resource route
+    Route::resource( 'user', UserController::class );
     // client resource route
     Route::resource( 'client', ClientController::class );
 
