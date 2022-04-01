@@ -46,7 +46,7 @@ class UserController extends Controller {
             'role'     => ['required', 'max: 255', 'string', 'not_in:none'],
         ] );
 
-        User::create( [
+        $user = User::create( [
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => bcrypt( $request->password ),
@@ -55,6 +55,7 @@ class UserController extends Controller {
             'phone'    => $request->phone,
             'role'     => $request->role,
         ] );
+            $user->markEmailAsVerified();
 
         return redirect()->route( 'user.index' )->with( 'success', 'User Added Successfully' );
     }
