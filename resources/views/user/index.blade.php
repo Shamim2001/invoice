@@ -4,7 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Users') }}
             </h2>
-            <a href="{{ route('register') }}" class="border border-emerald-500 px-3 py-1 rounded">Add New</a>
+            <a href="{{ route('user.create') }}" class="border border-emerald-500 px-3 py-1 rounded">Add New</a>
         </div>
     </x-slot>
 
@@ -27,10 +27,10 @@
                     <table class="w-full border-collapse">
                         <thead>
                             <tr>
-                                <th class="border py-2">Image</th>
-                                <th class="border py-2">Name</th>
+                                <th class="border py-2 w-20">Image</th>
+                                <th class="border py-2 w-20">Name</th>
                                 <th class="border py-2 w-20">Email</th>
-                                <th class="border py-2 w-40">Company</th>
+                                <th class="border py-2 w-32">Company</th>
                                 <th class="border py-2 w-32">Phone</th>
                                 <th class="border py-2 w-32">Country</th>
                                 <th class="border py-2 w-32">Role</th>

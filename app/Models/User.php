@@ -25,6 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail{
         'country',
         'thumbnail',
         'invoice_logo',
+        'role',
     ];
 
     /**
